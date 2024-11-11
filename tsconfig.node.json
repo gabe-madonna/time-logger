@@ -20,5 +20,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["apps/time-logger/vite.config.ts"]
+  "include": ["apps/webapp/vite.config.ts"]
 }
