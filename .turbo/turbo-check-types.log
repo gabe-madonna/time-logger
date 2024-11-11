@@ -1,0 +1,484 @@
+
+
+> vite-project@0.0.0 check-types
+> tsc --noEmit
+
+[1G[0K[96mapps/time-logger/node_modules/@mui/system/borders/index.d.ts[0m:[93m1[0m:[93m10[0m - [91merror[0m[90m TS2305: [0mModule '"./borders"' has no exported member 'default'.
+
+[7m1[0m export { default } from './borders';
+[7m [0m [91m         ~~~~~~~[0m
+
+[96mapps/time-logger/node_modules/@mui/system/cssGrid/index.d.ts[0m:[93m1[0m:[93m10[0m - [91merror[0m[90m TS2305: [0mModule '"./cssGrid"' has no exported member 'default'.
+
+[7m1[0m export { default } from './cssGrid';
+[7m [0m [91m         ~~~~~~~[0m
+
+[96mapps/time-logger/node_modules/@mui/system/display/index.d.ts[0m:[93m1[0m:[93m10[0m - [91merror[0m[90m TS2305: [0mModule '"./display"' has no exported member 'default'.
+
+[7m1[0m export { default } from './display';
+[7m [0m [91m         ~~~~~~~[0m
+
+[96mapps/time-logger/node_modules/@mui/system/flexbox/index.d.ts[0m:[93m1[0m:[93m10[0m - [91merror[0m[90m TS2305: [0mModule '"./flexbox"' has no exported member 'default'.
+
+[7m1[0m export { default } from './flexbox';
+[7m [0m [91m         ~~~~~~~[0m
+
+[96mapps/time-logger/node_modules/@mui/system/palette/index.d.ts[0m:[93m1[0m:[93m10[0m - [91merror[0m[90m TS2305: [0mModule '"./palette"' has no exported member 'default'.
+
+[7m1[0m export { default } from './palette';
+[7m [0m [91m         ~~~~~~~[0m
+
+[96mapps/time-logger/node_modules/@mui/system/positions/index.d.ts[0m:[93m1[0m:[93m10[0m - [91merror[0m[90m TS2305: [0mModule '"./positions"' has no exported member 'default'.
+
+[7m1[0m export { default } from './positions';
+[7m [0m [91m         ~~~~~~~[0m
+
+[96mapps/time-logger/node_modules/@mui/system/shadows/index.d.ts[0m:[93m1[0m:[93m10[0m - [91merror[0m[90m TS2305: [0mModule '"./shadows"' has no exported member 'default'.
+
+[7m1[0m export { default } from './shadows';
+[7m [0m [91m         ~~~~~~~[0m
+
+[96mapps/time-logger/node_modules/@mui/system/sizing/index.d.ts[0m:[93m1[0m:[93m10[0m - [91merror[0m[90m TS2305: [0mModule '"./sizing"' has no exported member 'default'.
+
+[7m1[0m export { default } from './sizing';
+[7m [0m [91m         ~~~~~~~[0m
+
+[96mapps/time-logger/node_modules/@mui/system/spacing/index.d.ts[0m:[93m1[0m:[93m10[0m - [91merror[0m[90m TS2305: [0mModule '"./spacing"' has no exported member 'default'.
+
+[7m1[0m export { default } from './spacing';
+[7m [0m [91m         ~~~~~~~[0m
+
+[96mapps/time-logger/node_modules/@mui/system/style/index.d.ts[0m:[93m1[0m:[93m10[0m - [91merror[0m[90m TS2305: [0mModule '"./style"' has no exported member 'default'.
+
+[7m1[0m export { default } from './style';
+[7m [0m [91m         ~~~~~~~[0m
+
+[96mapps/time-logger/node_modules/@mui/system/typography/index.d.ts[0m:[93m1[0m:[93m10[0m - [91merror[0m[90m TS2305: [0mModule '"./typography"' has no exported member 'default'.
+
+[7m1[0m export { default } from './typography';
+[7m [0m [91m         ~~~~~~~[0m
+
+[96mapps/time-logger/node_modules/@mui/utils/chainPropTypes/chainPropTypes.d.ts[0m:[93m1[0m:[93m8[0m - [91merror[0m[90m TS1259: [0mModule '"/Users/gabe/Git/vite-project/apps/time-logger/node_modules/@types/prop-types/index"' can only be default-imported using the 'esModuleInterop' flag
+
+[7m1[0m import PropTypes from 'prop-types';
+[7m [0m [91m       ~~~~~~~~~[0m
+
+  [96mapps/time-logger/node_modules/@types/prop-types/index.d.ts[0m:[93m2[0m:[93m1[0m
+    [7m2[0m export = PropTypes;
+    [7m [0m [96m~~~~~~~~~~~~~~~~~~~[0m
+    This module is declared with 'export =', and can only be used with a default import when using the 'esModuleInterop' flag.
+
+[96mapps/time-logger/node_modules/@mui/utils/elementAcceptingRef/elementAcceptingRef.d.ts[0m:[93m1[0m:[93m8[0m - [91merror[0m[90m TS1259: [0mModule '"/Users/gabe/Git/vite-project/apps/time-logger/node_modules/@types/prop-types/index"' can only be default-imported using the 'esModuleInterop' flag
+
+[7m1[0m import PropTypes from 'prop-types';
+[7m [0m [91m       ~~~~~~~~~[0m
+
+  [96mapps/time-logger/node_modules/@types/prop-types/index.d.ts[0m:[93m2[0m:[93m1[0m
+    [7m2[0m export = PropTypes;
+    [7m [0m [96m~~~~~~~~~~~~~~~~~~~[0m
+    This module is declared with 'export =', and can only be used with a default import when using the 'esModuleInterop' flag.
+
+[96mapps/time-logger/node_modules/@mui/utils/elementTypeAcceptingRef/elementTypeAcceptingRef.d.ts[0m:[93m1[0m:[93m8[0m - [91merror[0m[90m TS1259: [0mModule '"/Users/gabe/Git/vite-project/apps/time-logger/node_modules/@types/prop-types/index"' can only be default-imported using the 'esModuleInterop' flag
+
+[7m1[0m import PropTypes from 'prop-types';
+[7m [0m [91m       ~~~~~~~~~[0m
+
+  [96mapps/time-logger/node_modules/@types/prop-types/index.d.ts[0m:[93m2[0m:[93m1[0m
+    [7m2[0m export = PropTypes;
+    [7m [0m [96m~~~~~~~~~~~~~~~~~~~[0m
+    This module is declared with 'export =', and can only be used with a default import when using the 'esModuleInterop' flag.
+
+[96mapps/time-logger/node_modules/@mui/utils/integerPropType/integerPropType.d.ts[0m:[93m1[0m:[93m8[0m - [91merror[0m[90m TS1259: [0mModule '"/Users/gabe/Git/vite-project/apps/time-logger/node_modules/@types/prop-types/index"' can only be default-imported using the 'esModuleInterop' flag
+
+[7m1[0m import PropTypes from 'prop-types';
+[7m [0m [91m       ~~~~~~~~~[0m
+
+  [96mapps/time-logger/node_modules/@types/prop-types/index.d.ts[0m:[93m2[0m:[93m1[0m
+    [7m2[0m export = PropTypes;
+    [7m [0m [96m~~~~~~~~~~~~~~~~~~~[0m
+    This module is declared with 'export =', and can only be used with a default import when using the 'esModuleInterop' flag.
+
+[96mapps/time-logger/node_modules/@mui/utils/refType/refType.d.ts[0m:[93m1[0m:[93m8[0m - [91merror[0m[90m TS1259: [0mModule '"/Users/gabe/Git/vite-project/apps/time-logger/node_modules/@types/prop-types/index"' can only be default-imported using the 'esModuleInterop' flag
+
+[7m1[0m import PropTypes from 'prop-types';
+[7m [0m [91m       ~~~~~~~~~[0m
+
+  [96mapps/time-logger/node_modules/@types/prop-types/index.d.ts[0m:[93m2[0m:[93m1[0m
+    [7m2[0m export = PropTypes;
+    [7m [0m [96m~~~~~~~~~~~~~~~~~~~[0m
+    This module is declared with 'export =', and can only be used with a default import when using the 'esModuleInterop' flag.
+
+[96mapps/time-logger/node_modules/@tanstack/query-core/build/legacy/focusManager.d.ts[0m:[93m6[0m:[93m5[0m - [91merror[0m[90m TS18028: [0mPrivate identifiers are only available when targeting ECMAScript 2015 and higher.
+
+[7m6[0m     #private;
+[7m [0m [91m    ~~~~~~~~[0m
+
+[96mapps/time-logger/node_modules/@tanstack/query-core/build/legacy/hydration-mKPlgzt9.d.ts[0m:[93m12[0m:[93m5[0m - [91merror[0m[90m TS18028: [0mPrivate identifiers are only available when targeting ECMAScript 2015 and higher.
+
+[7m12[0m     #private;
+[7m  [0m [91m    ~~~~~~~~[0m
+
+[96mapps/time-logger/node_modules/@tanstack/query-core/build/legacy/hydration-mKPlgzt9.d.ts[0m:[93m117[0m:[93m5[0m - [91merror[0m[90m TS18028: [0mPrivate identifiers are only available when targeting ECMAScript 2015 and higher.
+
+[7m117[0m     #private;
+[7m   [0m [91m    ~~~~~~~~[0m
+
+[96mapps/time-logger/node_modules/@tanstack/query-core/build/legacy/hydration-mKPlgzt9.d.ts[0m:[93m288[0m:[93m19[0m - [91merror[0m[90m TS2304: [0mCannot find name 'IterableIterator'.
+
+[7m288[0m     values: () => IterableIterator<Query>;
+[7m   [0m [91m                  ~~~~~~~~~~~~~~~~[0m
+
+[96mapps/time-logger/node_modules/@tanstack/query-core/build/legacy/hydration-mKPlgzt9.d.ts[0m:[93m291[0m:[93m5[0m - [91merror[0m[90m TS18028: [0mPrivate identifiers are only available when targeting ECMAScript 2015 and higher.
+
+[7m291[0m     #private;
+[7m   [0m [91m    ~~~~~~~~[0m
+
+[96mapps/time-logger/node_modules/@tanstack/query-core/build/legacy/hydration-mKPlgzt9.d.ts[0m:[93m308[0m:[93m5[0m - [91merror[0m[90m TS18028: [0mPrivate identifiers are only available when targeting ECMAScript 2015 and higher.
+
+[7m308[0m     #private;
+[7m   [0m [91m    ~~~~~~~~[0m
+
+[96mapps/time-logger/node_modules/@tanstack/query-core/build/legacy/hydration-mKPlgzt9.d.ts[0m:[93m346[0m:[93m5[0m - [91merror[0m[90m TS18028: [0mPrivate identifiers are only available when targeting ECMAScript 2015 and higher.
+
+[7m346[0m     #private;
+[7m   [0m [91m    ~~~~~~~~[0m
+
+[96mapps/time-logger/node_modules/@tanstack/query-core/build/legacy/hydration-mKPlgzt9.d.ts[0m:[93m395[0m:[93m5[0m - [91merror[0m[90m TS18028: [0mPrivate identifiers are only available when targeting ECMAScript 2015 and higher.
+
+[7m395[0m     #private;
+[7m   [0m [91m    ~~~~~~~~[0m
+
+[96mapps/time-logger/node_modules/@tanstack/query-core/build/legacy/hydration-mKPlgzt9.d.ts[0m:[93m455[0m:[93m5[0m - [91merror[0m[90m TS18028: [0mPrivate identifiers are only available when targeting ECMAScript 2015 and higher.
+
+[7m455[0m     #private;
+[7m   [0m [91m    ~~~~~~~~[0m
+
+[96mapps/time-logger/node_modules/@tanstack/query-core/build/legacy/onlineManager.d.ts[0m:[93m6[0m:[93m5[0m - [91merror[0m[90m TS18028: [0mPrivate identifiers are only available when targeting ECMAScript 2015 and higher.
+
+[7m6[0m     #private;
+[7m [0m [91m    ~~~~~~~~[0m
+
+[96mapps/time-logger/node_modules/@tanstack/query-core/build/legacy/queriesObserver.d.ts[0m:[93m11[0m:[93m5[0m - [91merror[0m[90m TS18028: [0mPrivate identifiers are only available when targeting ECMAScript 2015 and higher.
+
+[7m11[0m     #private;
+[7m  [0m [91m    ~~~~~~~~[0m
+
+[96mapps/time-logger/node_modules/@tanstack/query-core/build/legacy/removable.d.ts[0m:[93m2[0m:[93m5[0m - [91merror[0m[90m TS18028: [0mPrivate identifiers are only available when targeting ECMAScript 2015 and higher.
+
+[7m2[0m     #private;
+[7m [0m [91m    ~~~~~~~~[0m
+
+[96mapps/time-logger/node_modules/@tanstack/query-core/build/legacy/subscribable.d.ts[0m:[93m2[0m:[93m26[0m - [91merror[0m[90m TS2583: [0mCannot find name 'Set'. Do you need to change your target library? Try changing the 'lib' compiler option to 'es2015' or later.
+
+[7m2[0m     protected listeners: Set<TListener>;
+[7m [0m [91m                         ~~~[0m
+
+[96mapps/time-logger/node_modules/@tanstack/query-devtools/build/index.d.ts[0m:[93m35[0m:[93m5[0m - [91merror[0m[90m TS18028: [0mPrivate identifiers are only available when targeting ECMAScript 2015 and higher.
+
+[7m35[0m     #private;
+[7m  [0m [91m    ~~~~~~~~[0m
+
+[96mapps/time-logger/node_modules/@tanstack/query-devtools/build/index.d.ts[0m:[93m52[0m:[93m5[0m - [91merror[0m[90m TS18028: [0mPrivate identifiers are only available when targeting ECMAScript 2015 and higher.
+
+[7m52[0m     #private;
+[7m  [0m [91m    ~~~~~~~~[0m
+
+[96mapps/time-logger/node_modules/@types/prop-types/index.d.ts[0m:[93m16[0m:[93m38[0m - [91merror[0m[90m TS2304: [0mCannot find name 'Iterable'.
+
+[7m16[0m     interface ReactNodeArray extends Iterable<ReactNodeLike> {}
+[7m  [0m [91m                                     ~~~~~~~~[0m
+
+[96mapps/time-logger/node_modules/@types/react/index.d.ts[0m:[93m440[0m:[93m26[0m - [91merror[0m[90m TS2304: [0mCannot find name 'Iterable'.
+
+[7m440[0m     type ReactFragment = Iterable<ReactNode>;
+[7m   [0m [91m                         ~~~~~~~~[0m
+
+[96mapps/time-logger/node_modules/@types/react/index.d.ts[0m:[93m478[0m:[93m10[0m - [91merror[0m[90m TS2456: [0mType alias 'ReactNode' circularly references itself.
+
+[7m478[0m     type ReactNode =
+[7m   [0m [91m         ~~~~~~~~~[0m
+
+[96mapps/time-logger/node_modules/@types/react/index.d.ts[0m:[93m482[0m:[93m11[0m - [91merror[0m[90m TS2304: [0mCannot find name 'Iterable'.
+
+[7m482[0m         | Iterable<ReactNode>
+[7m   [0m [91m          ~~~~~~~~[0m
+
+[96mapps/time-logger/node_modules/vite/types/hot.d.ts[0m:[93m4[0m:[93m3[0m - [91merror[0m[90m TS1170: [0mA computed property name in a type literal must refer to an expression whose type is a literal type or a 'unique symbol' type.
+
+[7m4[0m   [Symbol.toStringTag]: 'Module'
+[7m [0m [91m  ~~~~~~~~~~~~~~~~~~~~[0m
+
+[96mapps/time-logger/node_modules/vite/types/hot.d.ts[0m:[93m4[0m:[93m4[0m - [91merror[0m[90m TS2585: [0m'Symbol' only refers to a type, but is being used as a value here. Do you need to change your target library? Try changing the 'lib' compiler option to es2015 or later.
+
+[7m4[0m   [Symbol.toStringTag]: 'Module'
+[7m [0m [91m   ~~~~~~[0m
+
+[96mapps/time-logger/src/App.tsx[0m:[93m9[0m:[93m8[0m - [91merror[0m[90m TS6142: [0mModule './TaskInput' was resolved to '/Users/gabe/Git/vite-project/apps/time-logger/src/TaskInput.tsx', but '--jsx' is not set.
+
+[7m9[0m } from "./TaskInput";
+[7m [0m [91m       ~~~~~~~~~~~~~[0m
+
+[96mapps/time-logger/src/App.tsx[0m:[93m10[0m:[93m27[0m - [91merror[0m[90m TS6142: [0mModule './LogButton' was resolved to '/Users/gabe/Git/vite-project/apps/time-logger/src/LogButton.tsx', but '--jsx' is not set.
+
+[7m10[0m import { LogButton } from "./LogButton";
+[7m  [0m [91m                          ~~~~~~~~~~~~~[0m
+
+[96mapps/time-logger/src/App.tsx[0m:[93m13[0m:[93m32[0m - [91merror[0m[90m TS6142: [0mModule './StartTimeLabel' was resolved to '/Users/gabe/Git/vite-project/apps/time-logger/src/StartTimeLabel.tsx', but '--jsx' is not set.
+
+[7m13[0m import { StartTimeLabel } from "./StartTimeLabel";
+[7m  [0m [91m                               ~~~~~~~~~~~~~~~~~~[0m
+
+[96mapps/time-logger/src/App.tsx[0m:[93m14[0m:[93m35[0m - [91merror[0m[90m TS6142: [0mModule './DurationTimeLabel' was resolved to '/Users/gabe/Git/vite-project/apps/time-logger/src/DurationTimeLabel.tsx', but '--jsx' is not set.
+
+[7m14[0m import { DurationTimeLabel } from "./DurationTimeLabel";
+[7m  [0m [91m                                  ~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96mapps/time-logger/src/App.tsx[0m:[93m22[0m:[93m35[0m - [91merror[0m[90m TS2705: [0mAn async function or method in ES5 requires the 'Promise' constructor.  Make sure you have a declaration for the 'Promise' constructor or include 'ES2015' in your '--lib' option.
+
+[7m22[0m async function getTaskDatabase(): Promise<TaskLog[]> {
+[7m  [0m [91m                                  ~~~~~~~~~~~~~~~~~~[0m
+
+[96mapps/time-logger/src/App.tsx[0m:[93m23[0m:[93m13[0m - [91merror[0m[90m TS2585: [0m'Promise' only refers to a type, but is being used as a value here. Do you need to change your target library? Try changing the 'lib' compiler option to es2015 or later.
+
+[7m23[0m   await new Promise((r) => setTimeout(r, 1));
+[7m  [0m [91m            ~~~~~~~[0m
+
+[96mapps/time-logger/src/App.tsx[0m:[93m55[0m:[93m12[0m - [91merror[0m[90m TS17004: [0mCannot use JSX unless the '--jsx' flag is provided.
+
+[7m55[0m     return <CircularProgress />;
+[7m  [0m [91m           ~~~~~~~~~~~~~~~~~~~~[0m
+
+[96mapps/time-logger/src/App.tsx[0m:[93m59[0m:[93m5[0m - [91merror[0m[90m TS17004: [0mCannot use JSX unless the '--jsx' flag is provided.
+
+[7m59[0m     <>
+[7m  [0m [91m    ~~[0m
+
+[96mapps/time-logger/src/App.tsx[0m:[93m60[0m:[93m7[0m - [91merror[0m[90m TS17004: [0mCannot use JSX unless the '--jsx' flag is provided.
+
+[7m60[0m       <StartTimeLabel time={dateStart} />
+[7m  [0m [91m      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96mapps/time-logger/src/App.tsx[0m:[93m61[0m:[93m7[0m - [91merror[0m[90m TS17004: [0mCannot use JSX unless the '--jsx' flag is provided.
+
+[7m61[0m       <DurationTimeLabel dateStart={dateStart} />
+[7m  [0m [91m      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96mapps/time-logger/src/App.tsx[0m:[93m63[0m:[93m7[0m - [91merror[0m[90m TS17004: [0mCannot use JSX unless the '--jsx' flag is provided.
+
+[7m63[0m       <div style={{ marginBottom: "16px", marginTop: "16px" }}>
+[7m  [0m [91m      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96mapps/time-logger/src/App.tsx[0m:[93m64[0m:[93m9[0m - [91merror[0m[90m TS17004: [0mCannot use JSX unless the '--jsx' flag is provided.
+
+[7m 64[0m         <TaskInput
+[7m   [0m [91m        ~~~~~~~~~~[0m
+[7m 65[0m           onTaskSelected={(selectedTask) => {
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m...[0m 
+[7m 68[0m           selectedTask={selectedTask}
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m 69[0m         />
+[7m   [0m [91m~~~~~~~~~~[0m
+
+[96mapps/time-logger/src/App.tsx[0m:[93m72[0m:[93m7[0m - [91merror[0m[90m TS17004: [0mCannot use JSX unless the '--jsx' flag is provided.
+
+[7m 72[0m       <LogButton
+[7m   [0m [91m      ~~~~~~~~~~[0m
+[7m 73[0m         active={selectedTask !== null}
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m...[0m 
+[7m 80[0m         // onClick={() => {}}
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m 81[0m       />
+[7m   [0m [91m~~~~~~~~[0m
+
+[96mapps/time-logger/src/App.tsx[0m:[93m86[0m:[93m11[0m - [91merror[0m[90m TS17004: [0mCannot use JSX unless the '--jsx' flag is provided.
+
+[7m86[0m           <p key={index}>
+[7m  [0m [91m          ~~~~~~~~~~~~~~~[0m
+
+[96mapps/time-logger/src/DurationTimeLabel.tsx[0m:[93m1[0m:[93m38[0m - [91merror[0m[90m TS6142: [0mModule './TaskInput' was resolved to '/Users/gabe/Git/vite-project/apps/time-logger/src/TaskInput.tsx', but '--jsx' is not set.
+
+[7m1[0m import { readableTaskDuration } from "./TaskInput";
+[7m [0m [91m                                     ~~~~~~~~~~~~~[0m
+
+[96mapps/time-logger/src/DurationTimeLabel.tsx[0m:[93m11[0m:[93m5[0m - [91merror[0m[90m TS17004: [0mCannot use JSX unless the '--jsx' flag is provided.
+
+[7m11[0m     <div>
+[7m  [0m [91m    ~~~~~[0m
+
+[96mapps/time-logger/src/DurationTimeLabel.tsx[0m:[93m12[0m:[93m7[0m - [91merror[0m[90m TS17004: [0mCannot use JSX unless the '--jsx' flag is provided.
+
+[7m12[0m       <label>Duration: {durationReadable}</label>
+[7m  [0m [91m      ~~~~~~~[0m
+
+[96mapps/time-logger/src/LogButton.tsx[0m:[93m3[0m:[93m47[0m - [91merror[0m[90m TS6142: [0mModule './App' was resolved to '/Users/gabe/Git/vite-project/apps/time-logger/src/App.tsx', but '--jsx' is not set.
+
+[7m3[0m import { taskDatabase, setTaskDatabase } from "./App";
+[7m [0m [91m                                              ~~~~~~~[0m
+
+[96mapps/time-logger/src/LogButton.tsx[0m:[93m4[0m:[93m37[0m - [91merror[0m[90m TS6142: [0mModule './TaskInput' was resolved to '/Users/gabe/Git/vite-project/apps/time-logger/src/TaskInput.tsx', but '--jsx' is not set.
+
+[7m4[0m import { TaskOption, TaskLog } from "./TaskInput";
+[7m [0m [91m                                    ~~~~~~~~~~~~~[0m
+
+[96mapps/time-logger/src/LogButton.tsx[0m:[93m22[0m:[93m14[0m - [91merror[0m[90m TS2585: [0m'Promise' only refers to a type, but is being used as a value here. Do you need to change your target library? Try changing the 'lib' compiler option to es2015 or later.
+
+[7m22[0m   return new Promise((resolve) => {
+[7m  [0m [91m             ~~~~~~~[0m
+
+[96mapps/time-logger/src/LogButton.tsx[0m:[93m43[0m:[93m5[0m - [91merror[0m[90m TS17004: [0mCannot use JSX unless the '--jsx' flag is provided.
+
+[7m 43[0m     <Button
+[7m   [0m [91m    ~~~~~~~[0m
+[7m 44[0m       disabled={!props.active}
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m...[0m 
+[7m 57[0m       }}
+[7m   [0m [91m~~~~~~~~[0m
+[7m 58[0m     >
+[7m   [0m [91m~~~~~[0m
+
+[96mapps/time-logger/src/main.tsx[0m:[93m4[0m:[93m17[0m - [91merror[0m[90m TS5097: [0mAn import path can only end with a '.tsx' extension when 'allowImportingTsExtensions' is enabled.
+
+[7m4[0m import App from "./App.tsx";
+[7m [0m [91m                ~~~~~~~~~~~[0m
+
+[96mapps/time-logger/src/main.tsx[0m:[93m4[0m:[93m17[0m - [91merror[0m[90m TS6142: [0mModule './App.tsx' was resolved to '/Users/gabe/Git/vite-project/apps/time-logger/src/App.tsx', but '--jsx' is not set.
+
+[7m4[0m import App from "./App.tsx";
+[7m [0m [91m                ~~~~~~~~~~~[0m
+
+[96mapps/time-logger/src/main.tsx[0m:[93m19[0m:[93m3[0m - [91merror[0m[90m TS17004: [0mCannot use JSX unless the '--jsx' flag is provided.
+
+[7m19[0m   <StrictMode>
+[7m  [0m [91m  ~~~~~~~~~~~~[0m
+
+[96mapps/time-logger/src/main.tsx[0m:[93m20[0m:[93m5[0m - [91merror[0m[90m TS17004: [0mCannot use JSX unless the '--jsx' flag is provided.
+
+[7m20[0m     <QueryClientProvider client={queryClient}>
+[7m  [0m [91m    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96mapps/time-logger/src/main.tsx[0m:[93m21[0m:[93m7[0m - [91merror[0m[90m TS17004: [0mCannot use JSX unless the '--jsx' flag is provided.
+
+[7m21[0m       <App />
+[7m  [0m [91m      ~~~~~~~[0m
+
+[96mapps/time-logger/src/main.tsx[0m:[93m22[0m:[93m7[0m - [91merror[0m[90m TS17004: [0mCannot use JSX unless the '--jsx' flag is provided.
+
+[7m22[0m       <ReactQueryDevtools initialIsOpen={false} />
+[7m  [0m [91m      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96mapps/time-logger/src/StartTimeLabel.tsx[0m:[93m13[0m:[93m5[0m - [91merror[0m[90m TS17004: [0mCannot use JSX unless the '--jsx' flag is provided.
+
+[7m13[0m     <div>
+[7m  [0m [91m    ~~~~~[0m
+
+[96mapps/time-logger/src/StartTimeLabel.tsx[0m:[93m14[0m:[93m7[0m - [91merror[0m[90m TS17004: [0mCannot use JSX unless the '--jsx' flag is provided.
+
+[7m14[0m       <label>Start Time: {startTime}</label>
+[7m  [0m [91m      ~~~~~~~[0m
+
+[96mapps/time-logger/src/TaskInput.tsx[0m:[93m26[0m:[93m30[0m - [91merror[0m[90m TS2550: [0mProperty 'padStart' does not exist on type 'string'. Do you need to change your target library? Try changing the 'lib' compiler option to 'es2017' or later.
+
+[7m26[0m   let val = `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
+[7m  [0m [91m                             ~~~~~~~~[0m
+
+[96mapps/time-logger/src/TaskInput.tsx[0m:[93m26[0m:[93m66[0m - [91merror[0m[90m TS2550: [0mProperty 'padStart' does not exist on type 'string'. Do you need to change your target library? Try changing the 'lib' compiler option to 'es2017' or later.
+
+[7m26[0m   let val = `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}`;
+[7m  [0m [91m                                                                 ~~~~~~~~[0m
+
+[96mapps/time-logger/src/TaskInput.tsx[0m:[93m28[0m:[93m37[0m - [91merror[0m[90m TS2550: [0mProperty 'padStart' does not exist on type 'string'. Do you need to change your target library? Try changing the 'lib' compiler option to 'es2017' or later.
+
+[7m28[0m     val = val + `:${String(seconds).padStart(2, "0")}`;
+[7m  [0m [91m                                    ~~~~~~~~[0m
+
+[96mapps/time-logger/src/TaskInput.tsx[0m:[93m45[0m:[93m5[0m - [91merror[0m[90m TS17004: [0mCannot use JSX unless the '--jsx' flag is provided.
+
+[7m 45[0m     <Autocomplete
+[7m   [0m [91m    ~~~~~~~~~~~~~[0m
+[7m 46[0m       disablePortal
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~[0m
+[7m...[0m 
+[7m 64[0m       color="#000000" // doesnt seem to change anything...
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[7m 65[0m     />
+[7m   [0m [91m~~~~~~[0m
+
+[96mapps/time-logger/src/TaskInput.tsx[0m:[93m51[0m:[93m9[0m - [91merror[0m[90m TS17004: [0mCannot use JSX unless the '--jsx' flag is provided.
+
+[7m 51[0m         <TextField
+[7m   [0m [91m        ~~~~~~~~~~[0m
+[7m 52[0m           {...params}
+[7m   [0m [91m~~~~~~~~~~~~~~~~~~~~~[0m
+[7m...[0m 
+[7m 56[0m           }}
+[7m   [0m [91m~~~~~~~~~~~~[0m
+[7m 57[0m         />
+[7m   [0m [91m~~~~~~~~~~[0m
+
+[96mnode_modules/@types/babel__template/index.d.ts[0m:[93m11[0m:[93m28[0m - [91merror[0m[90m TS2583: [0mCannot find name 'Set'. Do you need to change your target library? Try changing the 'lib' compiler option to 'es2015' or later.
+
+[7m11[0m     placeholderWhitelist?: Set<string> | null | undefined;
+[7m  [0m [91m                           ~~~[0m
+
+[96mnode_modules/@types/babel__traverse/index.d.ts[0m:[93m63[0m:[93m15[0m - [91merror[0m[90m TS2583: [0mCannot find name 'WeakMap'. Do you need to change your target library? Try changing the 'lib' compiler option to 'es2015' or later.
+
+[7m63[0m     let path: WeakMap<t.Node, Map<t.Node, NodePath>>;
+[7m  [0m [91m              ~~~~~~~[0m
+
+[96mnode_modules/@types/babel__traverse/index.d.ts[0m:[93m63[0m:[93m31[0m - [91merror[0m[90m TS2583: [0mCannot find name 'Map'. Do you need to change your target library? Try changing the 'lib' compiler option to 'es2015' or later.
+
+[7m63[0m     let path: WeakMap<t.Node, Map<t.Node, NodePath>>;
+[7m  [0m [91m                              ~~~[0m
+
+[96mnode_modules/@types/babel__traverse/index.d.ts[0m:[93m64[0m:[93m16[0m - [91merror[0m[90m TS2583: [0mCannot find name 'WeakMap'. Do you need to change your target library? Try changing the 'lib' compiler option to 'es2015' or later.
+
+[7m64[0m     let scope: WeakMap<t.Node, Scope>;
+[7m  [0m [91m               ~~~~~~~[0m
+
+[96mnode_modules/@types/babel__traverse/index.d.ts[0m:[93m90[0m:[93m13[0m - [91merror[0m[90m TS2583: [0mCannot find name 'Map'. Do you need to change your target library? Try changing the 'lib' compiler option to 'es2015' or later.
+
+[7m90[0m     labels: Map<string, NodePath<t.LabeledStatement>>;
+[7m  [0m [91m            ~~~[0m
+
+
+Found 76 errors in 34 files.
+
+Errors  Files
+     1  apps/time-logger/node_modules/@mui/system/borders/index.d.ts[90m:1[0m
+     1  apps/time-logger/node_modules/@mui/system/cssGrid/index.d.ts[90m:1[0m
+     1  apps/time-logger/node_modules/@mui/system/display/index.d.ts[90m:1[0m
+     1  apps/time-logger/node_modules/@mui/system/flexbox/index.d.ts[90m:1[0m
+     1  apps/time-logger/node_modules/@mui/system/palette/index.d.ts[90m:1[0m
+     1  apps/time-logger/node_modules/@mui/system/positions/index.d.ts[90m:1[0m
+     1  apps/time-logger/node_modules/@mui/system/shadows/index.d.ts[90m:1[0m
+     1  apps/time-logger/node_modules/@mui/system/sizing/index.d.ts[90m:1[0m
+     1  apps/time-logger/node_modules/@mui/system/spacing/index.d.ts[90m:1[0m
+     1  apps/time-logger/node_modules/@mui/system/style/index.d.ts[90m:1[0m
+     1  apps/time-logger/node_modules/@mui/system/typography/index.d.ts[90m:1[0m
+     1  apps/time-logger/node_modules/@mui/utils/chainPropTypes/chainPropTypes.d.ts[90m:1[0m
+     1  apps/time-logger/node_modules/@mui/utils/elementAcceptingRef/elementAcceptingRef.d.ts[90m:1[0m
+     1  apps/time-logger/node_modules/@mui/utils/elementTypeAcceptingRef/elementTypeAcceptingRef.d.ts[90m:1[0m
+     1  apps/time-logger/node_modules/@mui/utils/integerPropType/integerPropType.d.ts[90m:1[0m
+     1  apps/time-logger/node_modules/@mui/utils/refType/refType.d.ts[90m:1[0m
+     1  apps/time-logger/node_modules/@tanstack/query-core/build/legacy/focusManager.d.ts[90m:6[0m
+     8  apps/time-logger/node_modules/@tanstack/query-core/build/legacy/hydration-mKPlgzt9.d.ts[90m:12[0m
+     1  apps/time-logger/node_modules/@tanstack/query-core/build/legacy/onlineManager.d.ts[90m:6[0m
+     1  apps/time-logger/node_modules/@tanstack/query-core/build/legacy/queriesObserver.d.ts[90m:11[0m
+     1  apps/time-logger/node_modules/@tanstack/query-core/build/legacy/removable.d.ts[90m:2[0m
+     1  apps/time-logger/node_modules/@tanstack/query-core/build/legacy/subscribable.d.ts[90m:2[0m
+     2  apps/time-logger/node_modules/@tanstack/query-devtools/build/index.d.ts[90m:35[0m
+     1  apps/time-logger/node_modules/@types/prop-types/index.d.ts[90m:16[0m
+     3  apps/time-logger/node_modules/@types/react/index.d.ts[90m:440[0m
+     2  apps/time-logger/node_modules/vite/types/hot.d.ts[90m:4[0m
+    14  apps/time-logger/src/App.tsx[90m:9[0m
+     3  apps/time-logger/src/DurationTimeLabel.tsx[90m:1[0m
+     4  apps/time-logger/src/LogButton.tsx[90m:3[0m
+     6  apps/time-logger/src/main.tsx[90m:4[0m
+     2  apps/time-logger/src/StartTimeLabel.tsx[90m:13[0m
+     5  apps/time-logger/src/TaskInput.tsx[90m:26[0m
+     1  node_modules/@types/babel__template/index.d.ts[90m:11[0m
+     4  node_modules/@types/babel__traverse/index.d.ts[90m:63[0m
+[1G[0K⠙[1G[0K
