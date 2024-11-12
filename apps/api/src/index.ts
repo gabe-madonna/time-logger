@@ -1,6 +1,8 @@
 import Fastify from "fastify";
+import taskRoutes from "./routes/task";
 
 const server = Fastify({ logger: true });
+server.register(taskRoutes);
 
 // Define a basic route
 server.get("/ping", async (request, reply) => {

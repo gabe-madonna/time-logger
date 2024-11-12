@@ -1,15 +1,7 @@
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
-
-export type TaskOption = {
-  task: "coding" | "eating";
-  type: "work" | "chore";
-};
-
-export type TaskLog = TaskOption & {
-  dateStart: Date;
-  dateEnd: Date;
-};
+// import { TaskLog, TaskOption } from "../../../packages/shared/src/types";
+import { TaskLog, TaskOption } from "@shared/types";
 
 export function taskDuration(task: TaskLog): number {
   return task.dateEnd.getTime() - task.dateStart.getTime(); // Duration in milliseconds

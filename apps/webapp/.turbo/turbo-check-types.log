@@ -1,6 +1,6 @@
 
 
-> webapp@0.0.0 check-types
+> webapp@1.0.0 check-types
 > tsc --noEmit
 
 [1G[0K[1G[0K⠙[1G[0K

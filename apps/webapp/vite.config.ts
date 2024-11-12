@@ -1,8 +1,12 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import path from "path";
 
-// https://vite.dev/config/
 export default defineConfig({
-  // root: "./apps/webapp/", // Set this to the directory containing index.html
   plugins: [react()],
+  resolve: {
+    alias: {
+      "@shared": path.resolve(__dirname, "../../packages/shared/src"),
+    },
+  },
 });
