@@ -4,6 +4,7 @@ export type TaskOption = {
 };
 
 export type TaskLog = TaskOption & {
+  _id?: String;
   dateStart: Date;
   dateEnd: Date;
 };

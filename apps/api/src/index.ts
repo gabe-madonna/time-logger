@@ -1,23 +1,28 @@
 import Fastify from "fastify";
-import taskRoutes from "./routes/task";
+import dotenv from "dotenv";
+import mongoPlugin from "./plugins/mongodb";
+import userRoutes from "./routes/taskLogs";
 
-const server = Fastify({ logger: true });
-server.register(taskRoutes);
+dotenv.config();
 
-// Define a basic route
-server.get("/ping", async (request, reply) => {
-  return { message: "pong" };
-});
+const startServer = async () => {
+  const fastify = Fastify({ logger: true });
 
-// Start the server
-const start = async () => {
+  // Register MongoDB plugin
+  fastify.register(mongoPlugin);
+
+  // Register routes
+  fastify.register(userRoutes, { prefix: "/users" });
+
+  const PORT = parseInt(process.env.TIME_LOGGER_PORT || "3000", 10);
+
   try {
-    const address = await server.listen({ port: 0, host: "0.0.0.0" });
-    console.log(`Server is running at ${address}`);
+    await fastify.listen({ port: PORT });
+    fastify.log.info(`Server running on http://localhost:${PORT}`);
   } catch (err) {
-    server.log.error(err);
+    fastify.log.error(err);
     process.exit(1);
   }
 };
 
-start();
+startServer();
