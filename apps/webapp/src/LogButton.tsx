@@ -1,29 +1,33 @@
 import { Button } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { taskDatabase, setTaskDatabase } from "./App";
-import { TaskOption, TaskLog } from "./TaskInput";
+import { TaskLog, TaskOption } from "@shared/types";
 
 type LogButtonProps = {
   active: boolean;
   currentTask: TaskOption | null;
   dateStart: Date; // start time of current task
+  notes?: String;
   onClick: () => void;
 };
 
 type LogTaskToDatabaseProps = {
   taskOption: TaskOption;
   dateStart: Date;
+  notes?: String;
 };
 
 function logTaskToDatabase({
   taskOption,
   dateStart,
+  notes,
 }: LogTaskToDatabaseProps): Promise<void> {
   return new Promise((resolve) => {
     const taskLog: TaskLog = {
       ...taskOption,
       dateStart: dateStart,
       dateEnd: new Date(),
+      notes: notes,
     };
     setTaskDatabase([taskLog]);
     resolve();
@@ -47,6 +51,7 @@ export function LogButton(props: LogButtonProps) {
           logTask.mutate({
             taskOption: props.currentTask,
             dateStart: props.dateStart,
+            notes: props.notes,
           });
           props.onClick(); // should this be after or before the task logging?
         }

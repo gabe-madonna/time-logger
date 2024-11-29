@@ -1,17 +1,13 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import {
-  TaskInput,
-  TaskOption,
-  TaskLog,
-  taskDuration,
-  readableTaskDuration,
-} from "./TaskInput";
+import { TaskInput, taskDuration, readableTaskDuration } from "./TaskInput";
+import { TaskNotes } from "./TaskNotes";
 import { LogButton } from "./LogButton";
 import { useQuery } from "@tanstack/react-query";
 import { CircularProgress } from "@mui/material";
 import { StartTimeLabel } from "./StartTimeLabel";
 import { DurationTimeLabel } from "./DurationTimeLabel";
+import { TaskLog, TaskOption } from "@shared/types";
 
 export let taskDatabase: TaskLog[] = [];
 
@@ -32,6 +28,7 @@ function App() {
   const [selectedTask, setSelectedTask] = useState<TaskOption | null>(null);
   const [dateStart, setDateStart] = useState<Date>(new Date());
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
+  const [taskNotes, setTaskNotes] = useState<String>(null);
 
   console.log("Task Database: ", taskDatabase);
   useEffect(() => {
@@ -60,24 +57,40 @@ function App() {
       <StartTimeLabel time={dateStart} />
       <DurationTimeLabel dateStart={dateStart} />
 
-      <div style={{ marginBottom: "16px", marginTop: "16px" }}>
-        <TaskInput
-          onTaskSelected={(selectedTask) => {
-            setSelectedTask(selectedTask);
-          }}
-          selectedTask={selectedTask}
-        />
+      <div
+        style={{
+          display: "flex",
+          gap: "10px",
+        }}
+      >
+        <div style={{ padding: "10px" }}>
+          <TaskInput
+            onTaskSelected={(selectedTask) => {
+              setSelectedTask(selectedTask);
+            }}
+            selectedTask={selectedTask}
+          />
+        </div>
+        <div style={{ padding: "10px" }}>
+          <TaskNotes
+            selectedTask={selectedTask !== null}
+            onChange={(notes) => {
+              setTaskNotes(notes);
+            }}
+          />
+        </div>
       </div>
 
       <LogButton
         active={selectedTask !== null}
         currentTask={selectedTask}
         dateStart={dateStart}
+        notes={taskNotes}
         onClick={() => {
           setSelectedTask(null);
           setDateStart(new Date());
+          setTaskNotes(null);
         }}
-        // onClick={() => {}}
       />
       {queryGetTasks.data
         .slice()
@@ -85,6 +98,7 @@ function App() {
         .map((task, index) => (
           <p key={index}>
             {task.task}: {readableTaskDuration(taskDuration(task))}
+            {task.notes ? `  "${task.notes}"` : ""}
           </p>
         ))}
       {/* <div>

@@ -39,6 +39,10 @@ export function TaskInput(props: TaskInputProp) {
       options={options}
       value={props.selectedTask}
       // sx={{ width: 300 }}
+      sx={{
+        width: "120%", // Full-width layout
+        maxWidth: "1000px",
+      }}
       renderInput={(params) => (
         <TextField
           {...params}
@@ -50,7 +54,6 @@ export function TaskInput(props: TaskInputProp) {
       )}
       getOptionLabel={(option) => option.task}
       onChange={(event, newTask) => {
-        console.log("Added New Task: ", newTask);
         props.onTaskSelected(newTask);
       }}
       color="#000000" // doesnt seem to change anything...

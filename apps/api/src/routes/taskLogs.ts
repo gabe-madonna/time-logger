@@ -7,8 +7,10 @@ export default async function taskRoutes(server: FastifyInstance) {
     server.log.info("Getting all tasks");
     const tasks = await server.mongo.db
       .collection<TaskLog>("taskLogs")
-      .find({ sort: { dateStart: 1 } })
+      .find()
+      .sort({ dateStart: -1 })
       .toArray();
+    server.log.info(tasks.length);
     reply.code(200).send(tasks);
   });
 
@@ -16,7 +18,14 @@ export default async function taskRoutes(server: FastifyInstance) {
   server.post(
     "/",
     async (request: FastifyRequest<{ Body: TaskLog }>, reply: FastifyReply) => {
-      const taskLog = request.body;
+      const { task, type, dateStart, dateEnd } = request.body;
+
+      const taskLog = {
+        task,
+        type,
+        dateStart: new Date(dateStart), // Parse inline
+        dateEnd: new Date(dateEnd),
+      };
 
       const result = await server.mongo.db
         .collection<TaskLog>("taskLogs")
