@@ -27,8 +27,8 @@ const startServer = async () => {
   fastify.register(fastifyCors, {
     origin: (origin, callback) => {
       const allowedOrigins = [
-        "https://time-logger-mu.vercel.app",
-        "https://time-logger-jusim95ir-gabes-projects-75d3b6da.vercel.app",
+        "http://localhost:5175", // Local frontend for development
+        "https://time-logger-jusim95ir-gabes-projects-75d3b6da.vercel.app", // Your Vercel frontend URL
       ];
 
       // Allow any localhost origin
