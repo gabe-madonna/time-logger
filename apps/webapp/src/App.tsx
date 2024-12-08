@@ -1,20 +1,21 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { TaskInput, taskDuration, readableTaskDuration } from "./TaskInput";
-import { TaskNotes } from "./TaskNotes";
-import { LogButton } from "./LogButton";
+import { TaskInput, taskDuration, readableTaskDuration } from "./TaskInput.js";
+import { TaskNotes } from "./TaskNotes.js";
+import { LogButton } from "./LogButton.js";
 import { useQuery } from "@tanstack/react-query";
 import { CircularProgress } from "@mui/material";
-import { StartTimeLabel } from "./StartTimeLabel";
-import { DurationTimeLabel } from "./DurationTimeLabel";
-import { TaskLog, TaskOption } from "@shared/types";
+import { StartTimeLabel } from "./StartTimeLabel.js";
+import { DurationTimeLabel } from "./DurationTimeLabel.js";
+import { TaskLog, TaskOption } from "@shared/types.js";
 
 export let taskDatabase: TaskLog[] = [];
-const apiUrl = "https://your-api-server.com/";
+const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
 export async function setTaskDatabase(log: TaskLog) {
   try {
     // Send task to the API endpoint
+    console.log(`Sending request to ${apiUrl}`);
     const response = fetch(apiUrl + "/logs/", {
       method: "POST",
       headers: {
@@ -42,7 +43,7 @@ function App() {
   const [selectedTask, setSelectedTask] = useState<TaskOption | null>(null);
   const [dateStart, setDateStart] = useState<Date>(new Date());
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
-  const [taskNotes, setTaskNotes] = useState<String>(null);
+  const [taskNotes, setTaskNotes] = useState<String | null>(null);
 
   console.log("Task Database: ", taskDatabase);
   useEffect(() => {

@@ -18,13 +18,14 @@ export default async function taskRoutes(server: FastifyInstance) {
   server.post(
     "/",
     async (request: FastifyRequest<{ Body: TaskLog }>, reply: FastifyReply) => {
-      const { task, type, dateStart, dateEnd } = request.body;
+      const { task, type, dateStart, dateEnd, notes } = request.body;
 
       const taskLog = {
         task,
         type,
         dateStart: new Date(dateStart), // Parse inline
         dateEnd: new Date(dateEnd),
+        notes: notes,
       };
 
       const result = await server.mongo.db

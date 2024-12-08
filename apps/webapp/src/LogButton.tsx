@@ -1,20 +1,20 @@
 import { Button } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { taskDatabase, setTaskDatabase } from "./App";
-import { TaskLog, TaskOption } from "@shared/types";
+import { taskDatabase, setTaskDatabase } from "./App.js";
+import { TaskLog, TaskOption } from "@shared/types.js";
 
 type LogButtonProps = {
   active: boolean;
   currentTask: TaskOption | null;
   dateStart: Date; // start time of current task
-  notes?: String;
+  notes: String | null;
   onClick: () => void;
 };
 
 type LogTaskToDatabaseProps = {
   taskOption: TaskOption;
   dateStart: Date;
-  notes?: String;
+  notes: String | null;
 };
 
 function logTaskToDatabase({

@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import mongoPlugin from "./plugins/mongodb";
 import taskRoutes from "./routes/taskLogs";
 import { TaskLog } from "packages/shared/src/types";
+import fastifyCors from "@fastify/cors";
 
 dotenv.config();
 
@@ -22,6 +23,23 @@ const startServer = async () => {
   // Register routes
   fastify.register(taskRoutes, { prefix: "/logs" });
 
+  //CORS
+  fastify.register(fastifyCors, {
+    origin: (origin, callback) => {
+      const allowedOrigins = ["https://time-logger-mu.vercel.app"];
+
+      // Allow any localhost origin
+      const isLocalhost = origin?.startsWith("http://localhost");
+
+      if (!origin || isLocalhost || allowedOrigins.includes(origin)) {
+        callback(null, true); // Allow the request
+      } else {
+        callback(new Error("Not allowed by CORS"), false); // Deny the request
+      }
+    },
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allow necessary HTTP methods
+  });
+
   // call a task logging endpoint to test it
 
   const PORT = parseInt(process.env.TIME_LOGGER_PORT || "3000", 10);
@@ -29,7 +47,7 @@ const startServer = async () => {
 
   try {
     await fastify.listen({ port: PORT, host: HOST });
-    fastify.log.info(`Server running on http://localhost:${PORT}`);
+    fastify.log.info(`Server running on ${HOST}:${PORT}`);
     // const log: TaskLog = {
     //   task: "coding",
     //   type: "chore",

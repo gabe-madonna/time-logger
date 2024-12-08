@@ -7,5 +7,5 @@ export type TaskLog = TaskOption & {
   _id?: String;
   dateStart: Date;
   dateEnd: Date;
-  notes?: String;
+  notes: String | null;
 };

@@ -5,9 +5,12 @@
     "paths": {
       "@shared/*": ["../../packages/shared/src/*"]
     },
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
     // "target": "ES2020",
-    // "module": "commonjs",
+    "module": "NodeNext", // Ensure module is set to NodeNext
+    "moduleResolution": "NodeNext", // Use NodeNext for modern Node.js ESM resolution
+    "target": "ESNext", // Optional: Ensures compatibility with modern syntax
+    "strict": true
     // "strict": true,
     // "esModuleInterop": true,
     // "skipLibCheck": true,
