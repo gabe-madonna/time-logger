@@ -44,13 +44,13 @@ const startServer = async () => {
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allow necessary HTTP methods
   });
 
-  fastify.options("*", (request, reply) => {
-    reply
-      .header("Access-Control-Allow-Origin", request.headers.origin || "")
-      .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-      .header("Access-Control-Allow-Headers", "Content-Type, Authorization")
-      .send();
-  });
+  // fastify.options("*", (request, reply) => {
+  //   reply
+  //     .header("Access-Control-Allow-Origin", request.headers.origin || "")
+  //     .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
+  //     .header("Access-Control-Allow-Headers", "Content-Type, Authorization")
+  //     .send();
+  // });
 
   // call a task logging endpoint to test it
 
