@@ -10,9 +10,23 @@ import { DurationTimeLabel } from "./DurationTimeLabel";
 import { TaskLog, TaskOption } from "@shared/types";
 
 export let taskDatabase: TaskLog[] = [];
+const apiUrl = "https://your-api-server.com/";
 
-export function setTaskDatabase(newTasks: TaskLog[]) {
-  taskDatabase = [...taskDatabase, ...newTasks];
+export async function setTaskDatabase(log: TaskLog) {
+  try {
+    // Send task to the API endpoint
+    const response = fetch(apiUrl + "/logs/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(log),
+    });
+
+    // If successful, update the local task database
+  } catch (error) {
+    console.error("Error while sending tasks to the API:", error);
+  }
 }
 
 async function getTaskDatabase(): Promise<TaskLog[]> {

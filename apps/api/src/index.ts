@@ -25,28 +25,29 @@ const startServer = async () => {
   // call a task logging endpoint to test it
 
   const PORT = parseInt(process.env.TIME_LOGGER_PORT || "3000", 10);
+  const HOST = process.env.NODE_ENV === "production" ? "0.0.0.0" : "localhost";
 
   try {
-    await fastify.listen({ port: PORT });
+    await fastify.listen({ port: PORT, host: HOST });
     fastify.log.info(`Server running on http://localhost:${PORT}`);
-    const log: TaskLog = {
-      task: "coding",
-      type: "chore",
-      dateStart: new Date(),
-      dateEnd: new Date(),
-    };
-    const response1 = await fastify.inject({
-      method: "POST",
-      url: "/logs/",
-      body: log,
-    });
-    console.log("abc:", response1.json());
+    // const log: TaskLog = {
+    //   task: "coding",
+    //   type: "chore",
+    //   dateStart: new Date(),
+    //   dateEnd: new Date(),
+    // };
+    // const response1 = await fastify.inject({
+    //   method: "POST",
+    //   url: "/logs/",
+    //   body: log,
+    // });
+    // console.log("abc:", response1.json());
 
-    const response2 = await fastify.inject({
-      method: "GET",
-      url: "/logs/",
-    });
-    console.log("123:", response2.json());
+    // const response2 = await fastify.inject({
+    //   method: "GET",
+    //   url: "/logs/",
+    // });
+    // console.log("123:", response2.json());
   } catch (err) {
     fastify.log.error(err);
     process.exit(1);

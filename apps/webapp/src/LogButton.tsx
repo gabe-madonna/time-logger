@@ -29,7 +29,7 @@ function logTaskToDatabase({
       dateEnd: new Date(),
       notes: notes,
     };
-    setTaskDatabase([taskLog]);
+    setTaskDatabase(taskLog);
     resolve();
   });
 }
