@@ -26,7 +26,10 @@ const startServer = async () => {
   //CORS
   fastify.register(fastifyCors, {
     origin: (origin, callback) => {
-      const allowedOrigins = ["https://time-logger-mu.vercel.app"];
+      const allowedOrigins = [
+        "https://time-logger-mu.vercel.app",
+        "https://time-logger-jusim95ir-gabes-projects-75d3b6da.vercel.app",
+      ];
 
       // Allow any localhost origin
       const isLocalhost = origin?.startsWith("http://localhost");
