@@ -39,13 +39,14 @@ async function getTaskDatabase(): Promise<TaskLog[]> {
 // const tasks = await getTasks()
 
 function App() {
+  console.log("Running App Loop");
   const [count, setCount] = useState(0);
   const [selectedTask, setSelectedTask] = useState<TaskOption | null>(null);
   const [dateStart, setDateStart] = useState<Date>(new Date());
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
   const [taskNotes, setTaskNotes] = useState<String | null>(null);
 
-  console.log("Task Database: ", taskDatabase);
+  // console.log("Task Database: ", taskDatabase);
   useEffect(() => {
     console.log("Effect Used");
   }, [count]);

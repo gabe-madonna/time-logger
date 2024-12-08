@@ -28,9 +28,8 @@ const startServer = async () => {
     origin: (origin, callback) => {
       console.log("CORS origin:", origin); // Log the origin for debugging
       const allowedOrigins = [
-        "http://localhost:5175", // Local frontend for development
         "https://time-logger-mu.vercel.app",
-        "https://time-logger-jusim95ir-gabes-projects-75d3b6da.vercel.app", // Your Vercel frontend URL
+        "https://time-logger-jusim95ir-gabes-projects-75d3b6da.vercel.app",
       ];
 
       // Allow any localhost origin
