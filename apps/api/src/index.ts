@@ -1,8 +1,8 @@
 import Fastify from "fastify";
 import dotenv from "dotenv";
 import mongoPlugin from "./plugins/mongodb";
-import taskRoutes from "./routes/taskLogs";
-import { TaskLog } from "packages/shared/src/types";
+import taskLogRoutes from "./routes/taskLogs";
+import taskOptionRoutes from "./routes/taskOptions";
 import fastifyCors from "@fastify/cors";
 
 dotenv.config();
@@ -10,18 +10,12 @@ dotenv.config();
 const startServer = async () => {
   const fastify = Fastify({ logger: true });
 
-  // ensure it releases the port when killed
-  // process.on("SIGINT", async () => {
-  //   console.log("Shutting down server...");
-  //   await fastify.close(); // Gracefully close the server
-  //   process.exit(0); // Exit the process
-  // });
-
   // Register MongoDB plugin
   fastify.register(mongoPlugin);
 
   // Register routes
-  fastify.register(taskRoutes, { prefix: "/logs" });
+  fastify.register(taskLogRoutes, { prefix: "/logs" });
+  fastify.register(taskOptionRoutes, { prefix: "/options" });
 
   //CORS
   fastify.register(fastifyCors, {
@@ -43,16 +37,6 @@ const startServer = async () => {
     },
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allow necessary HTTP methods
   });
-
-  // fastify.options("*", (request, reply) => {
-  //   reply
-  //     .header("Access-Control-Allow-Origin", request.headers.origin || "")
-  //     .header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS")
-  //     .header("Access-Control-Allow-Headers", "Content-Type, Authorization")
-  //     .send();
-  // });
-
-  // call a task logging endpoint to test it
 
   const PORT = parseInt(process.env.TIME_LOGGER_PORT || "3000", 10);
   const HOST = process.env.NODE_ENV === "production" ? "0.0.0.0" : "localhost";

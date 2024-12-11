@@ -1,21 +1,27 @@
 import { TextField } from "@mui/material";
+import { TaskOption } from "@shared/types.js";
+import { useEffect, useState } from "react";
 
 type TaskNotesProps = {
-  selectedTask: boolean;
-  onChange: (notes: String | null) => void;
+  selectedTask: TaskOption | null;
 };
 
 export function TaskNotes(props: TaskNotesProps) {
+  const [currentNotes, setCurrentNotes] = useState<string | null>(null);
+
+  useEffect(() => {
+    setCurrentNotes(null);
+  }, [props.selectedTask]);
+
   return (
     <TextField
       id="outlined-basic"
-      label="Notes"
       variant="outlined"
-      onChange={(event) => {
-        props.onChange(event.target.value);
-      }}
+      onChange={(event) => setCurrentNotes(event.target.value)} // Update local state only
+      value={currentNotes || ""}
       sx={{
-        backgroundColor: props.selectedTask ? "white" : "gray",
+        width: "250px",
+        backgroundColor: currentNotes === null ? "gray" : "white",
       }}
     />
   );

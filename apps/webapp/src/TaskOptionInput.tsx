@@ -1,7 +1,7 @@
-import { TextField } from "@mui/material";
-import { Autocomplete } from "@mui/material";
-// import { TaskLog, TaskOption } from "../../../packages/shared/src/types";
+import { useEffect, useState } from "react";
+import { Autocomplete, TextField } from "@mui/material";
 import { TaskLog, TaskOption } from "@shared/types.js";
+import { getTaskOptions } from "./App.js";
 
 export function taskDuration(task: TaskLog): number {
   return task.dateEnd.getTime() - task.dateStart.getTime(); // Duration in milliseconds
@@ -22,17 +22,39 @@ export function readableTaskDuration(
   return val;
 }
 
-const options: TaskOption[] = [
-  { task: "coding", type: "work" },
-  { task: "eating", type: "chore" },
-];
-
 type TaskInputProp = {
   selectedTask: TaskOption | null;
   onTaskSelected: (taskOption: TaskOption | null) => void;
 };
 
 export function TaskInput(props: TaskInputProp) {
+  const [options, setOptions] = useState<TaskOption[]>([]);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function getTaskOptions2() {
+      try {
+        const options: TaskOption[] = await getTaskOptions();
+        setOptions(options);
+      } catch {
+        setError("Failed to fetch task options");
+      }
+    }
+
+    getTaskOptions2();
+  }, []);
+
+  if (error) {
+    return (
+      <TextField
+        disabled
+        label="Error"
+        value={error}
+        sx={{ width: "120%", maxWidth: "1000px", backgroundColor: "gray" }}
+      />
+    );
+  }
+
   return (
     <Autocomplete
       disablePortal
@@ -40,19 +62,19 @@ export function TaskInput(props: TaskInputProp) {
       value={props.selectedTask}
       // sx={{ width: 300 }}
       sx={{
-        width: "120%", // Full-width layout
+        width: "250px", // Full-width layout
+        // width: "120%", // Full-width layout
         maxWidth: "1000px",
       }}
       renderInput={(params) => (
         <TextField
           {...params}
-          label={props.selectedTask ? props.selectedTask.task : "Task"}
           sx={{
             backgroundColor: props.selectedTask ? "white" : "gray",
           }}
         />
       )}
-      getOptionLabel={(option) => option.task}
+      getOptionLabel={(option) => option.type}
       onChange={(event, newTask) => {
         props.onTaskSelected(newTask);
       }}

@@ -1,4 +1,4 @@
-import { readableTaskDuration } from "./TaskInput";
+import { readableTaskDuration } from "./TaskOptionInput";
 
 type DurationTimeLabelProps = {
   dateStart: Date;

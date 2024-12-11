@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import { TaskInput, taskDuration, readableTaskDuration } from "./TaskInput.js";
+import {
+  TaskInput,
+  taskDuration,
+  readableTaskDuration,
+} from "./TaskOptionInput.js";
+import { SubtypeInput } from "./TaskSubtypeInput.js";
 import { TaskNotes } from "./TaskNotes.js";
 import { LogButton } from "./LogButton.js";
 import { useQuery } from "@tanstack/react-query";
@@ -9,59 +14,76 @@ import { StartTimeLabel } from "./StartTimeLabel.js";
 import { DurationTimeLabel } from "./DurationTimeLabel.js";
 import { TaskLog, TaskOption } from "@shared/types.js";
 
-export let taskDatabase: TaskLog[] = [];
-const apiUrl = import.meta.env.VITE_BACKEND_URL;
+export let taskLogs: TaskLog[] = [];
+export const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
-export async function setTaskDatabase(log: TaskLog) {
-  try {
-    // Send task to the API endpoint
-    console.log(`Sending request to ${apiUrl}`);
-    const response = fetch(apiUrl + "/logs/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(log),
-    });
+async function getTaskLogs(): Promise<TaskLog[]> {
+  console.log("Getting tasks");
+  const response = await fetch(apiUrl + "/logs/", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
 
-    // If successful, update the local task database
-  } catch (error) {
-    console.error("Error while sending tasks to the API:", error);
+  if (!response.ok) {
+    throw new Error(`API Error: ${response.status} ${response.statusText}`);
   }
+  // convert dates from strings...sigh
+  const logs: TaskLog[] = (await response.json()).map((log: any) => ({
+    dateStart: new Date(log.dateStart),
+    dateEnd: new Date(log.dateEnd),
+    type: log.type,
+    subtype: log.subtype,
+    notes: log.notes,
+  }));
+
+  console.log("Got task logs on frontend");
+  console.log(logs);
+  return logs;
 }
 
-async function getTaskDatabase(): Promise<TaskLog[]> {
-  await new Promise((r) => setTimeout(r, 1));
-  return taskDatabase; // use fetch here
-}
+export async function getTaskOptions(): Promise<TaskOption[]> {
+  console.log("Getting task options");
 
-// const tasks = getTasks()
-// const tasks = await getTasks()
+  const response = await fetch(apiUrl + "/options/", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`API Error: ${response.status} ${response.statusText}`);
+  }
+
+  const options: TaskOption[] = await response.json();
+  console.log("Got task options on frontend");
+  console.log(options);
+  return options;
+}
 
 function App() {
   console.log("Running App Loop");
-  const [count, setCount] = useState(0);
   const [selectedTask, setSelectedTask] = useState<TaskOption | null>(null);
+  const [selectedTaskSubtype, setSelectedTaskSubtype] = useState<string | null>(
+    null
+  );
   const [dateStart, setDateStart] = useState<Date>(new Date());
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
-  const [taskNotes, setTaskNotes] = useState<String | null>(null);
-
-  // console.log("Task Database: ", taskDatabase);
-  useEffect(() => {
-    console.log("Effect Used");
-  }, [count]);
+  const [taskNotes, setTaskNotes] = useState<string | null>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime(new Date());
-    }, 1000); // Update every second
+    }, 100); // Update every second
 
     return () => clearInterval(interval); // Cleanup interval on component unmount
   }, []);
 
   const queryGetTasks = useQuery({
-    queryKey: ["tasks"],
-    queryFn: getTaskDatabase,
+    queryKey: ["taskLogs"],
+    queryFn: getTaskLogs,
   });
 
   if (queryGetTasks.isPending || queryGetTasks.isError) {
@@ -70,78 +92,58 @@ function App() {
 
   return (
     <>
-      <StartTimeLabel time={dateStart} />
-      <DurationTimeLabel dateStart={dateStart} />
-
       <div
         style={{
           display: "flex",
-          gap: "10px",
+          gap: "5px",
+          flexDirection: "column", // Stack items vertically
+          alignItems: "center", // Optional: Center horizontally
+          justifyContent: "center", // Optional: Center vertically
+          // height: "100vh",         // Optional: Take full viewport height
         }}
       >
-        <div style={{ padding: "10px" }}>
-          <TaskInput
-            onTaskSelected={(selectedTask) => {
-              setSelectedTask(selectedTask);
-            }}
-            selectedTask={selectedTask}
-          />
-        </div>
-        <div style={{ padding: "10px" }}>
-          <TaskNotes
-            selectedTask={selectedTask !== null}
-            onChange={(notes) => {
-              setTaskNotes(notes);
-            }}
-          />
-        </div>
-      </div>
+        <StartTimeLabel time={dateStart} />
+        <DurationTimeLabel dateStart={dateStart} />
 
-      <LogButton
-        active={selectedTask !== null}
-        currentTask={selectedTask}
-        dateStart={dateStart}
-        notes={taskNotes}
-        onClick={() => {
-          setSelectedTask(null);
-          setDateStart(new Date());
-          setTaskNotes(null);
-        }}
-      />
+        <TaskInput
+          onTaskSelected={(selectedTask) => {
+            setSelectedTask(selectedTask);
+            setSelectedTaskSubtype(null);
+            setTaskNotes(null);
+          }}
+          selectedTask={selectedTask}
+        />
+        <SubtypeInput
+          onSubtypeSelected={(subtype) => {
+            setSelectedTaskSubtype(subtype);
+          }}
+          subtypeOptions={selectedTask ? selectedTask.subtypes : []}
+          selectedSubtype={selectedTaskSubtype}
+        />
+        <TaskNotes selectedTask={selectedTask} />
+        <LogButton
+          active={selectedTask !== null}
+          currentTaskOption={selectedTask}
+          currentTaskSubtype={selectedTaskSubtype}
+          dateStart={dateStart}
+          notes={taskNotes}
+          onClick={() => {
+            setSelectedTask(null);
+            setDateStart(new Date());
+            setTaskNotes(null);
+          }}
+        />
+      </div>
       {queryGetTasks.data
         .slice()
         .reverse()
         .map((task, index) => (
           <p key={index}>
-            {task.task}: {readableTaskDuration(taskDuration(task))}
+            {task.type} ({task.subtype}):{" "}
+            {readableTaskDuration(taskDuration(task))}
             {task.notes ? `  "${task.notes}"` : ""}
           </p>
         ))}
-      {/* <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div> */}
-      {/* <h1>Vite + React</h1>
-      <div className="card">
-        <button
-          onClick={() => {
-            setCount(count + 1);
-            setCount((count) => count + 1);
-          }}
-        >
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p> */}
     </>
   );
 }

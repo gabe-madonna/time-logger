@@ -1,35 +1,57 @@
 import { Button } from "@mui/material";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { taskDatabase, setTaskDatabase } from "./App.js";
+import { apiUrl } from "./App.js";
 import { TaskLog, TaskOption } from "@shared/types.js";
+
+async function saveTaskLog(log: TaskLog) {
+  try {
+    // Send task to the API endpoint
+    console.log(`Sending request to ${apiUrl}`);
+    const response = fetch(apiUrl + "/logs/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(log),
+    });
+
+    // If successful, update the local task database
+  } catch (error) {
+    console.error("Error while sending tasks to the API:", error);
+  }
+}
 
 type LogButtonProps = {
   active: boolean;
-  currentTask: TaskOption | null;
+  currentTaskOption: TaskOption | null;
+  currentTaskSubtype: string | null;
   dateStart: Date; // start time of current task
-  notes: String | null;
+  notes: string | null;
   onClick: () => void;
 };
 
 type LogTaskToDatabaseProps = {
   taskOption: TaskOption;
+  taskSubtype: string | null;
   dateStart: Date;
-  notes: String | null;
+  notes: string | null;
 };
 
 function logTaskToDatabase({
   taskOption,
+  taskSubtype,
   dateStart,
   notes,
 }: LogTaskToDatabaseProps): Promise<void> {
   return new Promise((resolve) => {
     const taskLog: TaskLog = {
-      ...taskOption,
+      type: taskOption.type,
+      subtype: taskSubtype,
       dateStart: dateStart,
       dateEnd: new Date(),
       notes: notes,
     };
-    setTaskDatabase(taskLog);
+    saveTaskLog(taskLog);
     resolve();
   });
 }
@@ -39,17 +61,18 @@ export function LogButton(props: LogButtonProps) {
   const logTask = useMutation({
     mutationFn: logTaskToDatabase,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["tasks"] });
+      queryClient.invalidateQueries({ queryKey: ["taskLogs"] });
     },
   });
 
   return (
     <Button
-      disabled={!props.active}
+      disabled={props.currentTaskOption === null}
       onClick={() => {
-        if (props.currentTask) {
+        if (props.currentTaskOption) {
           logTask.mutate({
-            taskOption: props.currentTask,
+            taskOption: props.currentTaskOption,
+            taskSubtype: props.currentTaskSubtype,
             dateStart: props.dateStart,
             notes: props.notes,
           });
@@ -57,7 +80,7 @@ export function LogButton(props: LogButtonProps) {
         }
       }}
       sx={{
-        backgroundColor: props.currentTask ? "white" : "gray",
+        backgroundColor: props.currentTaskOption === null ? "gray" : "white",
         color: "black",
       }}
     >

@@ -1,11 +1,13 @@
 export type TaskOption = {
-  task: "coding" | "eating";
-  type: "work" | "chore";
+  type: string;
+  subtypes: string[];
 };
 
-export type TaskLog = TaskOption & {
-  _id?: String;
+export type TaskLog = {
+  _id?: string;
+  type: string;
+  subtype: string | null;
   dateStart: Date;
   dateEnd: Date;
-  notes: String | null;
+  notes: string | null;
 };
