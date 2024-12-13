@@ -11,3 +11,5 @@ export type TaskLog = {
   dateEnd: Date;
   notes: string | null;
 };
+
+export type CurrentTaskLog = Omit<TaskLog, "dateEnd">;

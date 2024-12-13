@@ -8,11 +8,12 @@ import {
 import { SubtypeInput } from "./TaskSubtypeInput.js";
 import { TaskNotes } from "./TaskNotes.js";
 import { LogButton } from "./LogButton.js";
-import { useQuery } from "@tanstack/react-query";
-import { CircularProgress } from "@mui/material";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { CircularProgress, duration } from "@mui/material";
 import { StartTimeLabel } from "./StartTimeLabel.js";
 import { DurationTimeLabel } from "./DurationTimeLabel.js";
 import { TaskLog, TaskOption } from "@shared/types.js";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 export let taskLogs: TaskLog[] = [];
 export const apiUrl = import.meta.env.VITE_BACKEND_URL;
@@ -43,6 +44,41 @@ async function getTaskLogs(): Promise<TaskLog[]> {
   return logs;
 }
 
+async function saveTaskLog(log: TaskLog) {
+  try {
+    // Send task to the API endpoint
+    console.log(`Sending request to ${apiUrl}`);
+    console.log(log);
+    const response = fetch(apiUrl + "/logs/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(log),
+    });
+
+    // If successful, update the local task database
+  } catch (error) {
+    console.error("Error while sending tasks to the API:", error);
+  }
+}
+
+const theme = createTheme({
+  typography: {
+    fontFamily: "'Fira Code', monospace",
+  },
+});
+
+function logSummaryString(log: TaskLog): string {
+  const subtype: string = log.subtype === null ? "" : " (" + log.subtype + ")";
+  const duration: string = readableTaskDuration(taskDuration(log));
+  const notes: string = log.notes ? `  "${log.notes}"` : "";
+
+  // const logString: string = duration + " " + log.type + subtype + notes;
+  const logString: string = log.type + subtype + notes;
+  return logString;
+}
+
 export async function getTaskOptions(): Promise<TaskOption[]> {
   console.log("Getting task options");
 
@@ -71,12 +107,13 @@ function App() {
   );
   const [dateStart, setDateStart] = useState<Date>(new Date());
   const [currentTime, setCurrentTime] = useState<Date>(new Date());
-  const [taskNotes, setTaskNotes] = useState<string | null>(null);
+  let getNotes: () => string | null = () => null;
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime(new Date());
-    }, 100); // Update every second
+    }, 1000); // Update every second
 
     return () => clearInterval(interval); // Cleanup interval on component unmount
   }, []);
@@ -86,64 +123,95 @@ function App() {
     queryFn: getTaskLogs,
   });
 
+  const logTask = useMutation({
+    mutationFn: saveTaskLog,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["taskLogs"] });
+    },
+  });
+
   if (queryGetTasks.isPending || queryGetTasks.isError) {
     return <CircularProgress />;
   }
 
   return (
     <>
-      <div
-        style={{
-          display: "flex",
-          gap: "5px",
-          flexDirection: "column", // Stack items vertically
-          alignItems: "center", // Optional: Center horizontally
-          justifyContent: "center", // Optional: Center vertically
-          // height: "100vh",         // Optional: Take full viewport height
-        }}
-      >
-        <StartTimeLabel time={dateStart} />
-        <DurationTimeLabel dateStart={dateStart} />
+      <ThemeProvider theme={theme}>
+        <div className="container">
+          <div
+            style={{
+              display: "flex",
+              gap: "5px",
+              flexDirection: "column", // Stack items vertically
+              alignItems: "center", // Optional: Center horizontally
+              justifyContent: "center", // Optional: Center vertically
+              // height: "100vh",         // Optional: Take full viewport height
+            }}
+          >
+            <StartTimeLabel time={dateStart} />
+            <DurationTimeLabel dateStart={dateStart} />
 
-        <TaskInput
-          onTaskSelected={(selectedTask) => {
-            setSelectedTask(selectedTask);
-            setSelectedTaskSubtype(null);
-            setTaskNotes(null);
-          }}
-          selectedTask={selectedTask}
-        />
-        <SubtypeInput
-          onSubtypeSelected={(subtype) => {
-            setSelectedTaskSubtype(subtype);
-          }}
-          subtypeOptions={selectedTask ? selectedTask.subtypes : []}
-          selectedSubtype={selectedTaskSubtype}
-        />
-        <TaskNotes selectedTask={selectedTask} />
-        <LogButton
-          active={selectedTask !== null}
-          currentTaskOption={selectedTask}
-          currentTaskSubtype={selectedTaskSubtype}
-          dateStart={dateStart}
-          notes={taskNotes}
-          onClick={() => {
-            setSelectedTask(null);
-            setDateStart(new Date());
-            setTaskNotes(null);
-          }}
-        />
-      </div>
-      {queryGetTasks.data
-        .slice()
-        .reverse()
-        .map((task, index) => (
-          <p key={index}>
-            {task.type} ({task.subtype}):{" "}
-            {readableTaskDuration(taskDuration(task))}
-            {task.notes ? `  "${task.notes}"` : ""}
-          </p>
-        ))}
+            <TaskInput
+              onTaskSelected={(selectedTask) => {
+                setSelectedTask(selectedTask);
+                setSelectedTaskSubtype(null);
+              }}
+              selectedTask={selectedTask}
+            />
+            <SubtypeInput
+              onSubtypeSelected={(subtype) => {
+                setSelectedTaskSubtype(subtype);
+              }}
+              subtypeOptions={selectedTask ? selectedTask.subtypes : []}
+              selectedSubtype={selectedTaskSubtype}
+            />
+            <TaskNotes
+              selectedTask={selectedTask}
+              onGetNotes={(getNotesFunction) => {
+                getNotes = getNotesFunction;
+              }}
+            />
+            <LogButton
+              currentTaskOption={selectedTask}
+              onClick={() => {
+                const log: TaskLog = {
+                  type: selectedTask!.type,
+                  subtype: selectedTaskSubtype,
+                  dateStart: dateStart,
+                  dateEnd: new Date(),
+                  notes: getNotes(),
+                };
+                logTask.mutate(log);
+                setSelectedTask(null);
+                setSelectedTaskSubtype(null);
+                setDateStart(new Date());
+              }}
+            />
+          </div>
+          <div style={{ width: "100%", justifyItems: "left" }}>
+            {queryGetTasks.data
+              .slice()
+              .reverse()
+              .sort((a: TaskLog, b: TaskLog) => {
+                return a.dateStart > b.dateStart ? -1 : 1;
+              })
+              .map((log, index) => (
+                <div key={index} style={{ display: "flex", marginTop: "5px" }}>
+                  <label key={1 / index} style={{ marginRight: "10px" }}>
+                    {readableTaskDuration(taskDuration(log)) + " "}
+                  </label>
+                  <label> </label>
+                  <label key={-index} style={{ textAlign: "left" }}>
+                    {" "}
+                    {logSummaryString(log)}
+                  </label>
+
+                  {/* <p key={index}>{logSummaryString(log)}</p> */}
+                </div>
+              ))}
+          </div>
+        </div>
+      </ThemeProvider>
     </>
   );
 }

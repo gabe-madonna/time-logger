@@ -14,7 +14,7 @@ export function SubtypeInput(props: SubtypeInputProp) {
       value={props.selectedSubtype}
       // sx={{ width: 300 }}
       sx={{
-        width: "250px", // Full-width layout
+        width: "100%", // Full-width layout
       }}
       renderInput={(params) => (
         <TextField

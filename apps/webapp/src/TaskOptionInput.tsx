@@ -62,7 +62,7 @@ export function TaskInput(props: TaskInputProp) {
       value={props.selectedTask}
       // sx={{ width: 300 }}
       sx={{
-        width: "250px", // Full-width layout
+        width: "100%", // Full-width layout
         // width: "120%", // Full-width layout
         maxWidth: "1000px",
       }}
