@@ -4,7 +4,6 @@ import { TaskLog } from "packages/shared/src/types";
 export default async function taskLogRoutes(server: FastifyInstance) {
   // Get the tasks
   server.get("/", async (request: FastifyRequest, reply: FastifyReply) => {
-    server.log.info("Getting all task logs");
     const logs: TaskLog[] = await server.mongo.db
       .collection<TaskLog>("taskLogs")
       .find()
@@ -17,24 +16,33 @@ export default async function taskLogRoutes(server: FastifyInstance) {
   server.post(
     "/",
     async (request: FastifyRequest<{ Body: TaskLog }>, reply: FastifyReply) => {
-      const { type, subtype, dateStart, dateEnd, notes } = request.body;
+      try {
+        const { type, subtype, dateStart, dateEnd, notes } = request.body;
 
-      const log = {
-        type,
-        subtype,
-        dateStart: new Date(dateStart), // Parse inline
-        dateEnd: new Date(dateEnd),
-        notes: notes,
-      };
+        const log = {
+          type,
+          subtype,
+          dateStart: new Date(dateStart), // Parse inline
+          dateEnd: new Date(dateEnd),
+          notes: notes,
+        };
 
-      const result = await server.mongo.db
-        .collection<TaskLog>("taskLogs")
-        .insertOne(log);
+        const result = await server.mongo.db
+          .collection<TaskLog>("taskLogs")
+          .insertOne(log);
 
-      reply.code(201).send({
-        message: "Task logged successfully",
-        insertedId: result.insertedId,
-      });
+        const logInserted: TaskLog = { ...log, _id: result.insertedId };
+        reply.code(201).send({
+          message: "Task logged successfully",
+          log: logInserted,
+        });
+      } catch (error: any) {
+        console.error("Error logging task:", error);
+        reply.code(500).send({
+          message: "Failed to log task",
+          error: String(error),
+        });
+      }
     }
   );
 }

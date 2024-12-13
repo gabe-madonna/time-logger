@@ -19,7 +19,7 @@ export let taskLogs: TaskLog[] = [];
 export const apiUrl = import.meta.env.VITE_BACKEND_URL;
 
 async function getTaskLogs(): Promise<TaskLog[]> {
-  console.log("Getting tasks");
+  console.log("Getting all tasks");
   const response = await fetch(apiUrl + "/logs/", {
     method: "GET",
     headers: {
@@ -27,11 +27,14 @@ async function getTaskLogs(): Promise<TaskLog[]> {
     },
   });
 
+  console.log("Got all tasks");
+
   if (!response.ok) {
     throw new Error(`API Error: ${response.status} ${response.statusText}`);
   }
   // convert dates from strings...sigh
   const logs: TaskLog[] = (await response.json()).map((log: any) => ({
+    _id: log._id,
     dateStart: new Date(log.dateStart),
     dateEnd: new Date(log.dateEnd),
     type: log.type,
@@ -44,12 +47,10 @@ async function getTaskLogs(): Promise<TaskLog[]> {
   return logs;
 }
 
-async function saveTaskLog(log: TaskLog) {
+async function saveTaskLog(log: TaskLog): Promise<TaskLog> {
   try {
     // Send task to the API endpoint
-    console.log(`Sending request to ${apiUrl}`);
-    console.log(log);
-    const response = fetch(apiUrl + "/logs/", {
+    const response = await fetch(apiUrl + "/logs/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -57,9 +58,26 @@ async function saveTaskLog(log: TaskLog) {
       body: JSON.stringify(log),
     });
 
+    if (!response.ok) {
+      throw new Error(`API Error: ${response.status} ${response.statusText}`);
+    }
+
+    const logRaw: any = (await response.json()).log;
+    const logFinal: TaskLog = {
+      _id: logRaw._id,
+      dateStart: new Date(logRaw.dateStart),
+      dateEnd: new Date(logRaw.dateEnd),
+      type: logRaw.type,
+      subtype: logRaw.subtype,
+      notes: logRaw.notes,
+    };
+
+    return logFinal;
+
     // If successful, update the local task database
   } catch (error) {
     console.error("Error while sending tasks to the API:", error);
+    throw error;
   }
 }
 
@@ -80,8 +98,6 @@ function logSummaryString(log: TaskLog): string {
 }
 
 export async function getTaskOptions(): Promise<TaskOption[]> {
-  console.log("Getting task options");
-
   const response = await fetch(apiUrl + "/options/", {
     method: "GET",
     headers: {
@@ -94,8 +110,6 @@ export async function getTaskOptions(): Promise<TaskOption[]> {
   }
 
   const options: TaskOption[] = await response.json();
-  console.log("Got task options on frontend");
-  console.log(options);
   return options;
 }
 
@@ -118,20 +132,38 @@ function App() {
     return () => clearInterval(interval); // Cleanup interval on component unmount
   }, []);
 
-  const queryGetTasks = useQuery({
+  const {
+    data: taskLogs,
+    isLoading,
+    isError,
+    refetch,
+  } = useQuery<TaskLog[]>({
     queryKey: ["taskLogs"],
     queryFn: getTaskLogs,
+    initialData: [], // Start with an empty list
   });
 
   const logTask = useMutation({
     mutationFn: saveTaskLog,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["taskLogs"] });
+    onSuccess: (newLog) => {
+      // Optimistically update the UI with the new log
+      queryClient.setQueryData<TaskLog[]>(["taskLogs"], (oldLogs = []) => [
+        ...oldLogs,
+        newLog,
+      ]);
     },
   });
 
-  if (queryGetTasks.isPending || queryGetTasks.isError) {
+  // if (queryGetTasks.isPending || queryGetTasks.isError) {
+  //   return <CircularProgress />;
+  // }
+
+  if (isLoading) {
     return <CircularProgress />;
+  }
+
+  if (isError) {
+    return <p>Error loading task logs. Please try again.</p>;
   }
 
   return (
@@ -189,7 +221,7 @@ function App() {
             />
           </div>
           <div style={{ width: "100%", justifyItems: "left" }}>
-            {queryGetTasks.data
+            {taskLogs
               .slice()
               .reverse()
               .sort((a: TaskLog, b: TaskLog) => {
