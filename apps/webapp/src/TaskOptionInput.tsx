@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Autocomplete, TextField } from "@mui/material";
-import { TaskLog, TaskOption } from "@shared/types.js";
+import { CurrentTaskLog, TaskLog, TaskOption } from "@shared/types.js";
 import { getTaskOptions } from "./App.js";
 
 export function taskDuration(task: TaskLog): number {
@@ -23,43 +23,36 @@ export function readableTaskDuration(
 }
 
 type TaskInputProp = {
-  selectedTask: TaskOption | null;
-  onTaskSelected: (taskOption: TaskOption | null) => void;
+  currentLog: CurrentTaskLog;
+  types: string[];
+  onTypeSelected: (newType: string | null) => void;
 };
 
-export function TaskInput(props: TaskInputProp) {
-  const [options, setOptions] = useState<TaskOption[]>([]);
-  const [error, setError] = useState<string | null>(null);
+export function TaskInput({
+  currentLog,
+  types,
+  onTypeSelected,
+}: TaskInputProp) {
+  // const [options, setOptions] = useState<TaskOption[]>([]);
+  // const [options, setOptions] = useState<string[]>([]);
+  // const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    async function getTaskOptions2() {
-      try {
-        const options: TaskOption[] = await getTaskOptions();
-        setOptions(options);
-      } catch {
-        setError("Failed to fetch task options");
-      }
-    }
-
-    getTaskOptions2();
-  }, []);
-
-  if (error) {
-    return (
-      <TextField
-        disabled
-        label="Error"
-        value={error}
-        sx={{ width: "120%", maxWidth: "1000px", backgroundColor: "gray" }}
-      />
-    );
-  }
+  // if (error) {
+  //   return (
+  //     <TextField
+  //       disabled
+  //       label="Error"
+  //       value={error}
+  //       sx={{ width: "120%", maxWidth: "1000px", backgroundColor: "gray" }}
+  //     />
+  //   );
+  // }
 
   return (
     <Autocomplete
       disablePortal
-      options={options}
-      value={props.selectedTask}
+      options={types}
+      value={currentLog.type}
       // sx={{ width: 300 }}
       sx={{
         width: "100%", // Full-width layout
@@ -70,13 +63,13 @@ export function TaskInput(props: TaskInputProp) {
         <TextField
           {...params}
           sx={{
-            backgroundColor: props.selectedTask ? "white" : "gray",
+            backgroundColor: currentLog.type === null ? "gray" : "white",
           }}
         />
       )}
-      getOptionLabel={(option) => option.type}
-      onChange={(event, newTask) => {
-        props.onTaskSelected(newTask);
+      // getOptionLabel={(t) => t}
+      onChange={(event, newType) => {
+        onTypeSelected(newType);
       }}
       color="#000000" // doesnt seem to change anything...
     />

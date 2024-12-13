@@ -1,10 +1,9 @@
 import { Button } from "@mui/material";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { TaskOption } from "@shared/types.js";
+import { CurrentTaskLog } from "@shared/types.js";
 
 type LogButtonProps = {
   // active: boolean;
-  currentTaskOption: TaskOption | null;
+  currentLog: CurrentTaskLog;
   // currentTaskSubtype: string | null;
   // dateStart: Date; // start time of current task
   onClick: () => void;
@@ -35,7 +34,7 @@ type LogButtonProps = {
 //   });
 // }
 
-export function LogButton(props: LogButtonProps) {
+export function LogButton({ currentLog, onClick }: LogButtonProps) {
   // const queryClient = useQueryClient();
   // const logTask = useMutation({
   //   mutationFn: logTaskToDatabase,
@@ -46,8 +45,8 @@ export function LogButton(props: LogButtonProps) {
 
   return (
     <Button
-      disabled={props.currentTaskOption === null}
-      onClick={props.onClick}
+      disabled={currentLog.type === null}
+      onClick={onClick}
       // onClick={() => {
       //   if (props.currentTaskOption) {
       //     logTask.mutate({
@@ -60,7 +59,7 @@ export function LogButton(props: LogButtonProps) {
       //   }
       // }}
       sx={{
-        backgroundColor: props.currentTaskOption === null ? "gray" : "white",
+        backgroundColor: currentLog.type !== null ? "white" : "gray",
         color: "black",
       }}
     >

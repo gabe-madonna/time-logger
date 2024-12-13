@@ -1,8 +1,9 @@
 import { Autocomplete, TextField } from "@mui/material";
+import { CurrentTaskLog } from "@shared/types.js";
 
 type SubtypeInputProp = {
-  selectedSubtype: string | null;
-  subtypeOptions: string[];
+  currentLog: CurrentTaskLog;
+  subtypes: string[];
   onSubtypeSelected: (subtype: string | null) => void;
 };
 
@@ -10,8 +11,8 @@ export function SubtypeInput(props: SubtypeInputProp) {
   return (
     <Autocomplete
       disablePortal
-      options={props.subtypeOptions}
-      value={props.selectedSubtype}
+      options={props.subtypes}
+      value={props.currentLog.subtype}
       // sx={{ width: 300 }}
       sx={{
         width: "100%", // Full-width layout
@@ -21,13 +22,14 @@ export function SubtypeInput(props: SubtypeInputProp) {
           {...params}
           // label={props.selectedSubtype ? props.selectedSubtype : "None"}
           sx={{
-            backgroundColor: props.selectedSubtype ? "white" : "gray",
+            backgroundColor:
+              props.currentLog.subtype !== null ? "white" : "gray",
           }}
         />
       )}
       // getOptionLabel={(option) => option.seelct}
-      onChange={(event, newTask) => {
-        props.onSubtypeSelected(newTask);
+      onChange={(event, newSubtype) => {
+        props.onSubtypeSelected(newSubtype);
       }}
       color="#000000" // doesnt seem to change anything...
     />

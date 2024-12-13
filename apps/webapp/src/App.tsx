@@ -12,7 +12,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { CircularProgress, duration } from "@mui/material";
 import { StartTimeLabel } from "./StartTimeLabel.js";
 import { DurationTimeLabel } from "./DurationTimeLabel.js";
-import { TaskLog, TaskOption } from "@shared/types.js";
+import { CurrentTaskLog, TaskLog, TaskOption } from "@shared/types.js";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 export let taskLogs: TaskLog[] = [];
@@ -81,6 +81,43 @@ async function saveTaskLog(log: TaskLog): Promise<TaskLog> {
   }
 }
 
+async function getCurrentLog(): Promise<CurrentTaskLog | null> {
+  console.log("Frontend getting current task log");
+  const response = await fetch(`${apiUrl}/currentTaskLogs/`, {
+    method: "GET",
+  });
+  if (response.status === 404) {
+    return null; // No current log found
+  }
+  console.log("Valid response current log");
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch current log");
+  }
+
+  const currentLog: CurrentTaskLog = await response.json();
+  console.log(currentLog);
+  return {
+    ...currentLog,
+    dateStart: new Date(currentLog.dateStart), // Convert string to Date
+  };
+}
+
+async function saveCurrentLog(currentLog: CurrentTaskLog): Promise<void> {
+  const response = await fetch(`${apiUrl}/currentTaskLogs/`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(currentLog),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to save current log");
+  }
+
+  console.log("saved current log");
+  console.log(currentLog);
+}
+
 const theme = createTheme({
   typography: {
     fontFamily: "'Fira Code', monospace",
@@ -89,7 +126,7 @@ const theme = createTheme({
 
 function logSummaryString(log: TaskLog): string {
   const subtype: string = log.subtype === null ? "" : " (" + log.subtype + ")";
-  const duration: string = readableTaskDuration(taskDuration(log));
+  // const duration: string = readableTaskDuration(taskDuration(log));
   const notes: string = log.notes ? `  "${log.notes}"` : "";
 
   // const logString: string = duration + " " + log.type + subtype + notes;
@@ -113,21 +150,75 @@ export async function getTaskOptions(): Promise<TaskOption[]> {
   return options;
 }
 
+type SubtypeMap = Record<string, string[]>;
+
 function App() {
   console.log("Running App Loop");
-  const [selectedTask, setSelectedTask] = useState<TaskOption | null>(null);
-  const [selectedTaskSubtype, setSelectedTaskSubtype] = useState<string | null>(
-    null
-  );
-  const [dateStart, setDateStart] = useState<Date>(new Date());
-  const [currentTime, setCurrentTime] = useState<Date>(new Date());
+  const [currentLog, setCurrentLog] = useState<CurrentTaskLog>({
+    type: null,
+    subtype: null,
+    dateStart: new Date(),
+    notes: null,
+  });
+  const [currentLogFetched, setCurrentLogFetched] = useState<boolean>(false);
+  const [subtypeMap, setSubtypeMap] = useState<SubtypeMap>({});
+  const [types, setTypes] = useState<string[]>([]);
+
+  // Build the subtypes hash map
+  useEffect(() => {
+    async function buildSubtypeMap() {
+      try {
+        const taskOptions: TaskOption[] = await getTaskOptions();
+        const subtypeMap2: SubtypeMap = taskOptions.reduce((map, option) => {
+          map[option.type] = option.subtypes; // Use the task type as the key
+          return map;
+        }, {} as SubtypeMap);
+        const types: string[] = taskOptions.map((option) => option.type);
+
+        setSubtypeMap(subtypeMap2);
+        setTypes(types);
+      } catch {
+        console.error("Failed to fetch task options");
+        setSubtypeMap({});
+        setTypes([]);
+      }
+    }
+    buildSubtypeMap();
+  }, []);
+
+  // Fetch current log on app load
+  useEffect(() => {
+    async function getCurrentLog2() {
+      try {
+        const currentLog = await getCurrentLog();
+        if (currentLog) {
+          setCurrentLog(currentLog);
+          console.log("Found a current log");
+          console.log(currentLog);
+        }
+      } catch (error) {
+        console.error("Error loading current log:", error);
+      }
+      setCurrentLogFetched(true);
+    }
+    getCurrentLog2();
+  }, []);
+
+  // Save current log whenever it changes
+  useEffect(() => {
+    // dont overwrite the current log in the database until we've first fetched it
+    if (currentLogFetched) {
+      saveCurrentLog(currentLog).catch((error) => {
+        console.error("Error saving current log:", error);
+      });
+    }
+  }, [currentLog]);
+
   let getNotes: () => string | null = () => null;
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000); // Update every second
+    const interval = setInterval(() => {}, 1000); // Update every second
 
     return () => clearInterval(interval); // Cleanup interval on component unmount
   }, []);
@@ -172,51 +263,67 @@ function App() {
         <div className="container">
           <div
             style={{
+              // width: "100%",
               display: "flex",
-              gap: "5px",
+              gap: "10px",
               flexDirection: "column", // Stack items vertically
               alignItems: "center", // Optional: Center horizontally
               justifyContent: "center", // Optional: Center vertically
               // height: "100vh",         // Optional: Take full viewport height
             }}
           >
-            <StartTimeLabel time={dateStart} />
-            <DurationTimeLabel dateStart={dateStart} />
+            <StartTimeLabel time={currentLog.dateStart} />
+            <DurationTimeLabel dateStart={currentLog.dateStart} />
 
             <TaskInput
-              onTaskSelected={(selectedTask) => {
-                setSelectedTask(selectedTask);
-                setSelectedTaskSubtype(null);
+              currentLog={currentLog}
+              types={types}
+              onTypeSelected={(newType) => {
+                setCurrentLog({
+                  ...currentLog,
+                  type: newType,
+                  subtype: null,
+                  notes: null,
+                });
               }}
-              selectedTask={selectedTask}
             />
             <SubtypeInput
+              currentLog={currentLog}
               onSubtypeSelected={(subtype) => {
-                setSelectedTaskSubtype(subtype);
+                setCurrentLog({
+                  ...currentLog,
+                  subtype: subtype,
+                });
               }}
-              subtypeOptions={selectedTask ? selectedTask.subtypes : []}
-              selectedSubtype={selectedTaskSubtype}
+              subtypes={
+                currentLog.type === null ? [] : subtypeMap[currentLog.type]!
+              }
             />
             <TaskNotes
-              selectedTask={selectedTask}
-              onGetNotes={(getNotesFunction) => {
-                getNotes = getNotesFunction;
+              currentLog={currentLog}
+              onChange={(notes) => {
+                setCurrentLog({ ...currentLog, notes: notes });
               }}
+              // onGetNotes={(getNotesFunction) => {
+              //   getNotes = getNotesFunction;
+              // }}
             />
             <LogButton
-              currentTaskOption={selectedTask}
+              currentLog={currentLog}
               onClick={() => {
                 const log: TaskLog = {
-                  type: selectedTask!.type,
-                  subtype: selectedTaskSubtype,
-                  dateStart: dateStart,
+                  ...currentLog,
+                  type: currentLog.type!,
                   dateEnd: new Date(),
-                  notes: getNotes(),
                 };
                 logTask.mutate(log);
-                setSelectedTask(null);
-                setSelectedTaskSubtype(null);
-                setDateStart(new Date());
+                setCurrentLog({
+                  type: null,
+                  subtype: null,
+                  dateStart: new Date(),
+                  notes: null,
+                });
+                // setDateStart(new Date());
               }}
             />
           </div>

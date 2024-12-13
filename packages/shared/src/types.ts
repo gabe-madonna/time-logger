@@ -12,4 +12,10 @@ export type TaskLog = {
   notes: string | null;
 };
 
-export type CurrentTaskLog = Omit<TaskLog, "dateEnd">;
+export type CurrentTaskLog = {
+  _id?: string;
+  type: string | null;
+  subtype: string | null;
+  dateStart: Date;
+  notes: string | null;
+};

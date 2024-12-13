@@ -1,5 +1,6 @@
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { TaskLog } from "packages/shared/src/types";
+import { v4 as uuidv4 } from "uuid";
 
 export default async function taskLogRoutes(server: FastifyInstance) {
   // Get the tasks
@@ -20,8 +21,9 @@ export default async function taskLogRoutes(server: FastifyInstance) {
         const { type, subtype, dateStart, dateEnd, notes } = request.body;
 
         const log = {
-          type,
-          subtype,
+          _id: uuidv4(),
+          type: type,
+          subtype: subtype,
           dateStart: new Date(dateStart), // Parse inline
           dateEnd: new Date(dateEnd),
           notes: notes,

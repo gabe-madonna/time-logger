@@ -2,6 +2,7 @@ import Fastify from "fastify";
 import dotenv from "dotenv";
 import mongoPlugin from "./plugins/mongodb";
 import taskLogRoutes from "./routes/taskLogs";
+import currentTaskLogRoutes from "./routes/currentTaskLogs";
 import taskOptionRoutes from "./routes/taskOptions";
 import fastifyCors from "@fastify/cors";
 
@@ -16,6 +17,7 @@ const startServer = async () => {
   // Register routes
   fastify.register(taskLogRoutes, { prefix: "/logs" });
   fastify.register(taskOptionRoutes, { prefix: "/options" });
+  fastify.register(currentTaskLogRoutes, { prefix: "/currentTaskLogs" });
 
   //CORS
   fastify.register(fastifyCors, {
