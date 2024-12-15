@@ -6,6 +6,7 @@ import taskLogRoutes from "./routes/taskLogs";
 import currentTaskLogRoutes from "./routes/currentTaskLogs";
 import taskOptionRoutes from "./routes/taskOptions";
 import fastifyCors from "@fastify/cors";
+import ipRangeCheck from "ip-range-check";
 
 dotenv.config();
 
@@ -22,17 +23,16 @@ const startServer = async () => {
   fastify.register(currentTaskLogRoutes, { prefix: "/currentTaskLogs" });
 
   //CORS
+  const allowedCORSOrigins = [
+    "https://time-logger-mu.vercel.app",
+    "https://time-logger-jusim95ir-gabes-projects-75d3b6da.vercel.app",
+  ];
   fastify.register(fastifyCors, {
     origin: (origin, callback) => {
-      const allowedOrigins = [
-        "https://time-logger-mu.vercel.app",
-        "https://time-logger-jusim95ir-gabes-projects-75d3b6da.vercel.app",
-      ];
-
       // Allow any localhost origin
       const isLocalhost = origin?.startsWith("http://localhost");
 
-      if (!origin || isLocalhost || allowedOrigins.includes(origin)) {
+      if (!origin || isLocalhost || allowedCORSOrigins.includes(origin)) {
         callback(null, true); // Allow the request
       } else {
         console.log("CORS origin not allowed:", origin); // Log the origin for debugging
@@ -40,6 +40,23 @@ const startServer = async () => {
       }
     },
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Allow necessary HTTP methods
+  });
+
+  // ip addres access
+  const whitelist = ["127.0.0.1"].concat(allowedCORSOrigins); // Example whitelist
+  const isIPAllowed = (ip: string) => {
+    return whitelist.some((allowedIP) => ipRangeCheck(ip, allowedIP));
+  };
+
+  fastify.addHook("onRequest", (request, reply, done) => {
+    const ip = request.ip;
+
+    if (isIPAllowed(ip)) {
+      done(); // Allow the request
+    } else {
+      console.log("Blocked request from forbidden address: ", ip);
+      reply.status(403).send({ error: "Forbidden", address: ip }); // Block the request
+    }
   });
 
   const PORT = parseInt(process.env.TIME_LOGGER_PORT || "3000", 10);
