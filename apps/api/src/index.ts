@@ -1,6 +1,7 @@
 import Fastify from "fastify";
 import dotenv from "dotenv";
 import mongoPlugin from "./plugins/mongodb";
+import utilityRoutes from "./routes/utilities";
 import taskLogRoutes from "./routes/taskLogs";
 import currentTaskLogRoutes from "./routes/currentTaskLogs";
 import taskOptionRoutes from "./routes/taskOptions";
@@ -15,6 +16,7 @@ const startServer = async () => {
   fastify.register(mongoPlugin);
 
   // Register routes
+  fastify.register(utilityRoutes);
   fastify.register(taskLogRoutes, { prefix: "/logs" });
   fastify.register(taskOptionRoutes, { prefix: "/options" });
   fastify.register(currentTaskLogRoutes, { prefix: "/currentTaskLogs" });
@@ -22,7 +24,6 @@ const startServer = async () => {
   //CORS
   fastify.register(fastifyCors, {
     origin: (origin, callback) => {
-      console.log("CORS origin:", origin); // Log the origin for debugging
       const allowedOrigins = [
         "https://time-logger-mu.vercel.app",
         "https://time-logger-jusim95ir-gabes-projects-75d3b6da.vercel.app",
@@ -34,6 +35,7 @@ const startServer = async () => {
       if (!origin || isLocalhost || allowedOrigins.includes(origin)) {
         callback(null, true); // Allow the request
       } else {
+        console.log("CORS origin not allowed:", origin); // Log the origin for debugging
         callback(new Error("Not allowed by CORS"), false); // Deny the request
       }
     },
