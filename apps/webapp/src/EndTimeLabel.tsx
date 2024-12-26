@@ -3,9 +3,18 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DateTimeField } from "@mui/x-date-pickers/DateTimeField";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
+import { CurrentTaskLog } from "@shared/types.js";
+
+export function validTaskEndDate(currentLog: CurrentTaskLog): boolean {
+  const validType =
+    currentLog.dateEnd === null ||
+    (currentLog.dateEnd > currentLog.dateStart &&
+      currentLog.dateEnd < new Date());
+  return validType;
+}
 
 type EndTimeLabelProps = {
-  time: Date | null;
+  currentLog: CurrentTaskLog;
   onTimeSelected: (time: Date | null) => void;
 };
 
@@ -26,13 +35,24 @@ export function EndTimeLabel(props: EndTimeLabelProps) {
   };
 
   const handleCancel = () => {
+    // if (
+    //   props.currentLog.dateEnd !== null &&
+    //   props.currentLog.dateEnd > new Date()
+    // ) {
+    //   props.onTimeSelected(null);
+    // } else if (
+    //   props.currentLog.dateEnd !== null &&
+    //   props.currentLog.dateEnd <= props.currentLog.dateStart
+    // ) {
+    //   props.onTimeSelected(null);
+    // }
     setIsEditing(false);
   };
 
   const renderValue = () => {
-    if (props.time === null) return "Now";
+    if (props.currentLog.dateEnd === null) return "Now";
     // return dayjs() from Date type
-    return dayjs(props.time).format("MM-DD hh:mm A");
+    return dayjs(props.currentLog.dateEnd).format("hh:mm A");
     // return props.time.format("hh:mm A");
   };
 
@@ -45,7 +65,7 @@ export function EndTimeLabel(props: EndTimeLabelProps) {
         alignItems: "center",
         width: "100%",
         height: "30px",
-        color: "inherit",
+        color: validTaskEndDate(props.currentLog) ? "inherit" : "Red",
         fontFamily: "inherit",
         fontSize: "inherit",
       }}
@@ -55,7 +75,11 @@ export function EndTimeLabel(props: EndTimeLabelProps) {
         <div>
           {isEditing ? (
             <DateTimeField
-              value={props.time === null ? dayjs() : dayjs(props.time)}
+              value={
+                props.currentLog.dateEnd === null
+                  ? dayjs()
+                  : dayjs(props.currentLog.dateEnd)
+              }
               onChange={handleSave}
               onBlur={handleCancel}
               format="MM-DD hh:mm A"
@@ -67,7 +91,7 @@ export function EndTimeLabel(props: EndTimeLabelProps) {
                 padding: 0,
                 "& .MuiOutlinedInput-root": {
                   padding: 0,
-                  color: "inherit",
+                  color: validTaskEndDate(props.currentLog) ? "inherit" : "Red",
                   "& input": {
                     textAlign: "right",
                   },

@@ -47,4 +47,31 @@ export default async function taskLogRoutes(server: FastifyInstance) {
       }
     }
   );
+
+  server.delete(
+    "/:id",
+    async (
+      request: FastifyRequest<{ Params: { id: string } }>,
+      reply: FastifyReply
+    ) => {
+      try {
+        const id = request.params.id;
+        const result = await server.mongo.db
+          .collection<TaskLog>("taskLogs")
+          .deleteOne({ _id: id });
+
+        if (result.deletedCount === 1) {
+          reply.code(200).send({ message: "Task log deleted successfully" });
+        } else {
+          reply.code(404).send({ message: "Task log not found" });
+        }
+      } catch (error: any) {
+        console.error("Error deleting task log:", error);
+        reply.code(500).send({
+          message: "Failed to delete task log",
+          error: String(error),
+        });
+      }
+    }
+  );
 }

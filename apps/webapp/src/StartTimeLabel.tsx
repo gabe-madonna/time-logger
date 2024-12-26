@@ -1,14 +1,17 @@
 type StartTimeLabelProps = {
-  time: Date;
+  time: Date | null;
 };
 
 export function StartTimeLabel(props: StartTimeLabelProps) {
   // make a startTime that updates when the parent
   const { time } = props;
-  const startTime = time.toLocaleTimeString([], {
-    hour: "2-digit",
-    minute: "2-digit",
-  });
+  const startTime =
+    time === null
+      ? "NA"
+      : time.toLocaleTimeString([], {
+          hour: "2-digit",
+          minute: "2-digit",
+        });
   return (
     <div
       style={{

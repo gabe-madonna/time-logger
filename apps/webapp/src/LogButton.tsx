@@ -1,5 +1,6 @@
 import { Button } from "@mui/material";
 import { CurrentTaskLog } from "@shared/types.js";
+import { validTaskEndDate } from "./EndTimeLabel.js";
 
 type LogButtonProps = {
   // active: boolean;
@@ -8,6 +9,11 @@ type LogButtonProps = {
   // dateStart: Date; // start time of current task
   onClick: () => void;
 };
+
+function validTaskLog(currentLog: CurrentTaskLog): boolean {
+  const validType = currentLog.type !== null && validTaskEndDate(currentLog);
+  return validType;
+}
 
 // type LogTaskToDatabaseProps = {
 //   taskOption: TaskOption;
@@ -45,7 +51,7 @@ export function LogButton({ currentLog, onClick }: LogButtonProps) {
 
   return (
     <Button
-      disabled={currentLog.type === null}
+      disabled={!validTaskLog(currentLog)}
       onClick={onClick}
       // onClick={() => {
       //   if (props.currentTaskOption) {
@@ -59,7 +65,7 @@ export function LogButton({ currentLog, onClick }: LogButtonProps) {
       //   }
       // }}
       sx={{
-        backgroundColor: currentLog.type !== null ? "white" : "gray",
+        backgroundColor: validTaskLog(currentLog) ? "white" : "gray",
         color: "black",
       }}
     >

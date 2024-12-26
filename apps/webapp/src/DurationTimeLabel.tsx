@@ -1,11 +1,16 @@
+import { CurrentTaskLog } from "@shared/types.js";
 import { readableTaskDuration } from "./TaskOptionInput.js";
 import { useEffect, useState } from "react";
 
 type DurationTimeLabelProps = {
-  dateStart: Date;
+  currentLog: CurrentTaskLog;
+  logStart: Date | null;
 };
 
-export function DurationTimeLabel({ dateStart }: DurationTimeLabelProps) {
+export function DurationTimeLabel({
+  currentLog,
+  logStart,
+}: DurationTimeLabelProps) {
   const [currentTime, setCurrentTime] = useState(new Date());
 
   useEffect(() => {
@@ -16,7 +21,14 @@ export function DurationTimeLabel({ dateStart }: DurationTimeLabelProps) {
     return () => clearInterval(interval);
   }, []);
 
-  const duration = currentTime.getTime() - dateStart.getTime();
+  let duration = 0;
+  if (logStart) {
+    duration = Math.max(
+      (currentLog.dateEnd?.getTime() || currentTime.getTime()) -
+        logStart.getTime(),
+      0
+    );
+  }
   const durationReadable = readableTaskDuration(duration, true);
   return (
     <div
