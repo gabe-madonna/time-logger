@@ -43,7 +43,7 @@ const startServer = async () => {
   });
 
   // ip addres access
-  const whitelist = ["127.0.0.1"].concat(allowedCORSOrigins); // Example whitelist
+  const whitelist = ["127.0.0.1", "::1"].concat(allowedCORSOrigins);
   const isIPAllowed = (ip: string) => {
     return whitelist.some((allowedIP) => ipRangeCheck(ip, allowedIP));
   };

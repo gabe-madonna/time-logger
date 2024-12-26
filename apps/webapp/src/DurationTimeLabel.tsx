@@ -19,8 +19,17 @@ export function DurationTimeLabel({ dateStart }: DurationTimeLabelProps) {
   const duration = currentTime.getTime() - dateStart.getTime();
   const durationReadable = readableTaskDuration(duration, true);
   return (
-    <div>
-      <label>Duration: {durationReadable}</label>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        width: "100%",
+      }}
+    >
+      <label style={{ textAlign: "left" }}>Duration:</label>
+      <label>{durationReadable}</label>
     </div>
   );
 }

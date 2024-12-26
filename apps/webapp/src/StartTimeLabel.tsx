@@ -10,8 +10,17 @@ export function StartTimeLabel(props: StartTimeLabelProps) {
     minute: "2-digit",
   });
   return (
-    <div>
-      <label>Start Time: {startTime}</label>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        width: "100%",
+      }}
+    >
+      <label style={{ textAlign: "left" }}>Start Time:</label>
+      <label>{startTime}</label>
     </div>
   );
 }

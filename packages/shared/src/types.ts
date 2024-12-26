@@ -17,5 +17,6 @@ export type CurrentTaskLog = {
   type: string | null;
   subtype: string | null;
   dateStart: Date;
+  dateEnd: Date | null;
   notes: string | null;
 };

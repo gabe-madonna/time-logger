@@ -14,6 +14,7 @@ import { StartTimeLabel } from "./StartTimeLabel.js";
 import { DurationTimeLabel } from "./DurationTimeLabel.js";
 import { CurrentTaskLog, TaskLog, TaskOption } from "@shared/types.js";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { EndTimeLabel } from "./EndTimeLabel.js";
 
 export let taskLogs: TaskLog[] = [];
 export const apiUrl = import.meta.env.VITE_BACKEND_URL;
@@ -158,6 +159,7 @@ function App() {
     type: null,
     subtype: null,
     dateStart: new Date(),
+    dateEnd: null,
     notes: null,
   });
   const [currentLogFetched, setCurrentLogFetched] = useState<boolean>(false);
@@ -272,8 +274,17 @@ function App() {
               // height: "100vh",         // Optional: Take full viewport height
             }}
           >
-            <StartTimeLabel time={currentLog.dateStart} />
             <DurationTimeLabel dateStart={currentLog.dateStart} />
+            <StartTimeLabel time={currentLog.dateStart} />
+            <EndTimeLabel
+              time={currentLog.dateEnd}
+              onTimeSelected={(newTime) => {
+                setCurrentLog({
+                  ...currentLog,
+                  dateEnd: newTime,
+                });
+              }}
+            />
 
             <TaskInput
               currentLog={currentLog}
@@ -314,13 +325,14 @@ function App() {
                 const log: TaskLog = {
                   ...currentLog,
                   type: currentLog.type!,
-                  dateEnd: new Date(),
+                  dateEnd: currentLog.dateEnd || new Date(),
                 };
                 logTask.mutate(log);
                 setCurrentLog({
                   type: null,
                   subtype: null,
                   dateStart: new Date(),
+                  dateEnd: null,
                   notes: null,
                 });
                 // setDateStart(new Date());
