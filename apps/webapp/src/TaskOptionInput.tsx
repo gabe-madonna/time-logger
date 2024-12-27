@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
+import { useRef } from "react";
 import { Autocomplete, TextField } from "@mui/material";
-import { CurrentTaskLog, TaskLog, TaskOption } from "@shared/types.js";
-import { getTaskOptions } from "./App.js";
+import { CurrentTaskLog, TaskLog } from "@shared/types.js";
 
 export function taskDuration(task: TaskLog): number {
   return task.dateEnd.getTime() - task.dateStart.getTime(); // Duration in milliseconds
@@ -72,6 +71,22 @@ export function TaskInput({
         onTypeSelected(newType);
       }}
       color="#000000" // doesnt seem to change anything...
+      // onFocus={() => {
+      //   const selectRef = useRef<HTMLDivElement>(null);
+
+      //   if (selectRef.current) {
+      //     selectRef.current.scrollIntoView({
+      //       behavior: "smooth",
+      //       block: "center",
+      //     });
+      //   }
+      // }}
+      onOpen={() => {
+        window.scrollTo({
+          top: document.activeElement?.getBoundingClientRect().top || 0,
+          behavior: "smooth",
+        });
+      }}
     />
   );
 }

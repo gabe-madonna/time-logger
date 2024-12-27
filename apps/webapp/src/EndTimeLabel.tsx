@@ -5,16 +5,20 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs, { Dayjs } from "dayjs";
 import { CurrentTaskLog } from "@shared/types.js";
 
-export function validTaskEndDate(currentLog: CurrentTaskLog): boolean {
+export function validTaskEndDate(
+  currentLog: CurrentTaskLog,
+  lastLogEnd: Date | null
+): boolean {
   const validType =
     currentLog.dateEnd === null ||
-    (currentLog.dateEnd > currentLog.dateStart &&
-      currentLog.dateEnd < new Date());
+    lastLogEnd === null ||
+    (currentLog.dateEnd > lastLogEnd && currentLog.dateEnd < new Date());
   return validType;
 }
 
 type EndTimeLabelProps = {
   currentLog: CurrentTaskLog;
+  lastLogEnd: Date | null;
   onTimeSelected: (time: Date | null) => void;
 };
 
@@ -65,7 +69,9 @@ export function EndTimeLabel(props: EndTimeLabelProps) {
         alignItems: "center",
         width: "100%",
         height: "30px",
-        color: validTaskEndDate(props.currentLog) ? "inherit" : "Red",
+        color: validTaskEndDate(props.currentLog, props.lastLogEnd)
+          ? "inherit"
+          : "Red",
         fontFamily: "inherit",
         fontSize: "inherit",
       }}
@@ -91,7 +97,9 @@ export function EndTimeLabel(props: EndTimeLabelProps) {
                 padding: 0,
                 "& .MuiOutlinedInput-root": {
                   padding: 0,
-                  color: validTaskEndDate(props.currentLog) ? "inherit" : "Red",
+                  color: validTaskEndDate(props.currentLog, props.lastLogEnd)
+                    ? "inherit"
+                    : "Red",
                   "& input": {
                     textAlign: "right",
                   },

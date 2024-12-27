@@ -1,15 +1,11 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-import {
-  TaskInput,
-  taskDuration,
-  readableTaskDuration,
-} from "./TaskOptionInput.js";
+import { TaskInput } from "./TaskOptionInput.js";
 import { SubtypeInput } from "./TaskSubtypeInput.js";
 import { TaskNotes } from "./TaskNotes.js";
 import { LogButton } from "./LogButton.js";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { CircularProgress, duration } from "@mui/material";
+import { CircularProgress } from "@mui/material";
 import { StartTimeLabel } from "./StartTimeLabel.js";
 import { DurationTimeLabel } from "./DurationTimeLabel.js";
 import { CurrentTaskLog, TaskLog, TaskOption } from "@shared/types.js";
@@ -144,19 +140,7 @@ function App() {
         return a.dateEnd > b.dateEnd ? 1 : -1;
       });
 
-    setCurrentLog({
-      ...currentLog,
-      dateStart:
-        logs.length > 0 ? logs[logs.length - 1].dateEnd : currentLog.dateStart,
-    });
-
-    setLastLogEnd(logs[logs.length - 1].dateEnd);
-
-    console.log(
-      "Setting date start from database: ",
-      logs[logs.length - 1].dateEnd,
-      currentLog.dateStart
-    );
+    // setLastLogEnd(logs[logs.length - 1].dateEnd);
     return logs;
   }
 
@@ -178,10 +162,6 @@ function App() {
     console.log("current log", currentLog);
     return {
       ...currentLog,
-      dateStart:
-        taskLogs.length > 0
-          ? taskLogs[taskLogs.length - 1].dateEnd
-          : new Date(currentLog.dateStart), // Convert string to Date
       dateEnd: currentLog.dateEnd
         ? new Date(currentLog.dateEnd)
         : currentLog.dateEnd, // Convert string to Date
@@ -202,10 +182,6 @@ function App() {
   const [currentLog, setCurrentLog] = useState<CurrentTaskLog>({
     type: null,
     subtype: null,
-    dateStart:
-      taskLogs.length > 0
-        ? new Date(taskLogs[taskLogs.length - 1].dateEnd)
-        : new Date(),
     dateEnd: null,
     notes: null,
   });
@@ -264,6 +240,15 @@ function App() {
     }
   }, [currentLog]);
 
+  // update the last log end time whenever the task logs change
+  useEffect(() => {
+    if (taskLogs.length > 0) {
+      setLastLogEnd(taskLogs[taskLogs.length - 1].dateEnd);
+    } else {
+      setLastLogEnd(null);
+    }
+  }, [taskLogs]);
+
   const queryClient = useQueryClient();
 
   useEffect(() => {
@@ -277,8 +262,8 @@ function App() {
     onSuccess: (newLog) => {
       // Optimistically update the UI with the new log
       queryClient.setQueryData<TaskLog[]>(["taskLogs"], (oldLogs = []) => [
-        newLog,
         ...oldLogs,
+        newLog,
       ]);
     },
   });
@@ -330,6 +315,7 @@ function App() {
                   dateEnd: newTime,
                 });
               }}
+              lastLogEnd={lastLogEnd}
             />
 
             <TaskInput
@@ -367,6 +353,7 @@ function App() {
             />
             <LogButton
               currentLog={currentLog}
+              lastLogEnd={lastLogEnd}
               onClick={() => {
                 const log: TaskLog = {
                   ...currentLog,
@@ -378,24 +365,28 @@ function App() {
                 setCurrentLog({
                   type: null,
                   subtype: null,
-                  dateStart: log.dateEnd,
                   dateEnd: null,
                   notes: null,
                 });
+                // setLastLogEnd(log.dateEnd);
                 // setDateStart(new Date());
               }}
             />
           </div>
-          <div style={{ width: "100%", justifyItems: "left" }}>
-            {taskLogs.map(
+          {/* <div style={{ width: "100%", justifyItems: "left" }}> */}
+          {/* add some spacing */}
+          <div style={{ height: "10px" }}></div>
+          {taskLogs
+            .slice()
+            .reverse()
+            .map(
               (log, index) => (
-                <div>
-                  <LoggedTask
-                    log={log}
-                    index={index}
-                    onDelete={(log) => deleteLogMutation.mutate(log._id!)}
-                  />
-                </div>
+                <LoggedTask
+                  key={index}
+                  log={log}
+                  index={index}
+                  onDelete={(log) => deleteLogMutation.mutate(log._id!)}
+                />
               )
               // <div key={index} style={{ display: "flex", marginTop: "5px" }}>
               //   <label key={1 / index} style={{ marginRight: "10px" }}>
@@ -410,7 +401,7 @@ function App() {
               //   {/* <p key={index}>{logSummaryString(log)}</p> */}
               // </div>
             )}
-          </div>
+          {/* </div> */}
         </div>
       </ThemeProvider>
     </>

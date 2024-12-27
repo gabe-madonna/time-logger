@@ -8,10 +8,15 @@ type LogButtonProps = {
   // currentTaskSubtype: string | null;
   // dateStart: Date; // start time of current task
   onClick: () => void;
+  lastLogEnd: Date | null;
 };
 
-function validTaskLog(currentLog: CurrentTaskLog): boolean {
-  const validType = currentLog.type !== null && validTaskEndDate(currentLog);
+function validTaskLog(
+  currentLog: CurrentTaskLog,
+  lastLogEnd: Date | null
+): boolean {
+  const validType =
+    currentLog.type !== null && validTaskEndDate(currentLog, lastLogEnd);
   return validType;
 }
 
@@ -40,7 +45,7 @@ function validTaskLog(currentLog: CurrentTaskLog): boolean {
 //   });
 // }
 
-export function LogButton({ currentLog, onClick }: LogButtonProps) {
+export function LogButton({ currentLog, onClick, lastLogEnd }: LogButtonProps) {
   // const queryClient = useQueryClient();
   // const logTask = useMutation({
   //   mutationFn: logTaskToDatabase,
@@ -51,7 +56,7 @@ export function LogButton({ currentLog, onClick }: LogButtonProps) {
 
   return (
     <Button
-      disabled={!validTaskLog(currentLog)}
+      disabled={!validTaskLog(currentLog, lastLogEnd)}
       onClick={onClick}
       // onClick={() => {
       //   if (props.currentTaskOption) {
@@ -65,7 +70,9 @@ export function LogButton({ currentLog, onClick }: LogButtonProps) {
       //   }
       // }}
       sx={{
-        backgroundColor: validTaskLog(currentLog) ? "white" : "gray",
+        backgroundColor: validTaskLog(currentLog, lastLogEnd)
+          ? "white"
+          : "gray",
         color: "black",
       }}
     >
