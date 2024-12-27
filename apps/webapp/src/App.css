@@ -4,6 +4,8 @@ body {
   padding: 0;
   width: 100%;
   height: 100%;
+  /* ensure that clicked on components scroll to TOP of viewport rather than middle */
+  scroll-behavior: smooth;
 }
 
 #root {
