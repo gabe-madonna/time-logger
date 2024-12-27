@@ -8,7 +8,7 @@ export function taskDuration(task: TaskLog): number {
 }
 const StyledPopper = styled(Popper)({
   "& .MuiAutocomplete-listbox": {
-    maxHeight: 200, // Enforce a fixed dropdown height
+    maxHeight: 150, // Enforce a fixed dropdown height
     overflowY: "auto", // Enable scrolling
   },
 });
@@ -81,7 +81,7 @@ export function TaskInput({
       PopperComponent={(props) => <StyledPopper {...props} />}
       ListboxProps={{
         style: {
-          maxHeight: 200, // Match the Popper height
+          maxHeight: 150, // Match the Popper height
           overflowY: "auto",
         },
       }}
