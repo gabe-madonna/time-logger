@@ -36,8 +36,8 @@ export function SubtypeInput(props: SubtypeInputProp) {
         popper: {
           sx: {
             "& .MuiAutocomplete-paper": {
-              maxHeight: "200px", // Limit height of the dropdown
-              overflowY: "auto", // Add scroll if items exceed height
+              maxHeight: "150px", // Limit height of the dropdown
+              // overflowY: "auto", // Add scroll if items exceed height
             },
           },
         },
