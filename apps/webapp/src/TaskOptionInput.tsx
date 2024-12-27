@@ -1,10 +1,17 @@
 import { useRef } from "react";
-import { Autocomplete, TextField } from "@mui/material";
+import { Autocomplete, TextField, Popper } from "@mui/material";
 import { CurrentTaskLog, TaskLog } from "@shared/types.js";
+import { styled } from "@mui/system";
 
 export function taskDuration(task: TaskLog): number {
   return task.dateEnd.getTime() - task.dateStart.getTime(); // Duration in milliseconds
 }
+const StyledPopper = styled(Popper)({
+  "& .MuiAutocomplete-listbox": {
+    maxHeight: 200, // Enforce a fixed dropdown height
+    overflowY: "auto", // Enable scrolling
+  },
+});
 
 export function readableTaskDuration(
   duration: number,
@@ -71,14 +78,11 @@ export function TaskInput({
         onTypeSelected(newType);
       }}
       color="#000000" // doesnt seem to change anything...
-      slotProps={{
-        popper: {
-          sx: {
-            "& .MuiAutocomplete-paper": {
-              maxHeight: "150px", // Limit height of the dropdown
-              // overflowY: "auto", // Add scroll if items exceed height
-            },
-          },
+      PopperComponent={(props) => <StyledPopper {...props} />}
+      ListboxProps={{
+        style: {
+          maxHeight: 200, // Match the Popper height
+          overflowY: "auto",
         },
       }}
       // onFocus={() => {
