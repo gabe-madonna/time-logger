@@ -32,6 +32,16 @@ export function SubtypeInput(props: SubtypeInputProp) {
         props.onSubtypeSelected(newSubtype);
       }}
       color="#000000" // doesnt seem to change anything...
+      slotProps={{
+        popper: {
+          sx: {
+            "& .MuiAutocomplete-paper": {
+              maxHeight: "200px", // Limit height of the dropdown
+              overflowY: "auto", // Add scroll if items exceed height
+            },
+          },
+        },
+      }}
     />
   );
 }

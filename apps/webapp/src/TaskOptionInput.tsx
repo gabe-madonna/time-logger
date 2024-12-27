@@ -71,6 +71,16 @@ export function TaskInput({
         onTypeSelected(newType);
       }}
       color="#000000" // doesnt seem to change anything...
+      slotProps={{
+        popper: {
+          sx: {
+            "& .MuiAutocomplete-paper": {
+              maxHeight: "200px", // Limit height of the dropdown
+              overflowY: "auto", // Add scroll if items exceed height
+            },
+          },
+        },
+      }}
       // onFocus={() => {
       //   const selectRef = useRef<HTMLDivElement>(null);
 
@@ -81,12 +91,12 @@ export function TaskInput({
       //     });
       //   }
       // }}
-      onOpen={() => {
-        window.scrollTo({
-          top: document.activeElement?.getBoundingClientRect().top || 0,
-          behavior: "smooth",
-        });
-      }}
+      // onOpen={() => {
+      //   window.scrollTo({
+      //     top: document.activeElement?.getBoundingClientRect().top || 0,
+      //     behavior: "smooth",
+      //   });
+      // }}
     />
   );
 }
